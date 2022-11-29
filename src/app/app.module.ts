@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { DarkmodeComponent } from './components/darkmode/darkmode.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     RegisterComponent,
     AccountComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    DarkmodeComponent
   ],
   imports: [
     BrowserModule,
