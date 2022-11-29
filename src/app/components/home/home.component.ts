@@ -1,7 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Account } from 'src/app/models/account';
 import { AccountService } from 'src/app/services/account.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -20,9 +22,16 @@ export class HomeComponent implements OnInit {
   balance: FormControl = new FormControl(['']);
   accountDescription: FormControl = new FormControl(['']);
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, private authService: AuthService) { }
 
   ngOnInit(): void {
+
+  
+    if (this.authService.loggedIn) {
+      this.authService.loggedIn = false;
+      window.location.reload();
+    }
+
     this.accountService.getAccount().subscribe({
       next: (response) => {
         this.userAccount = new Account(
@@ -49,6 +58,7 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
 
   openCreateForm() {
     this.createFormOpen = true;

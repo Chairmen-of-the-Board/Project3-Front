@@ -12,7 +12,7 @@ export class NavbarComponent{
 
   loggedIn: boolean = false;
 
-  constructor(private router: Router, private accountService : AccountService) { }
+  constructor(private router: Router, private accountService : AccountService, private authService : AuthService) { }
 
   logout() {
     localStorage.removeItem('current-user');
@@ -20,7 +20,14 @@ export class NavbarComponent{
        
     this.accountService.accountId = '';
     this.accountService.accountUrl = '';
+    
+   // this.authService.loggedIn = false;
+    this.authService.logout();
+    
+
     this.router.navigateByUrl('/login');
+
+    
   }
 
 }
