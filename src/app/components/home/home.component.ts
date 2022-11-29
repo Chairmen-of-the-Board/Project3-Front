@@ -22,17 +22,11 @@ export class HomeComponent implements OnInit {
   balance: FormControl = new FormControl(['']);
   accountDescription: FormControl = new FormControl(['']);
 
-  constructor(private accountService: AccountService, private authService: AuthService) { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
 
-  
-    if (this.authService.loggedIn) {
-      this.authService.loggedIn = false;
-      window.location.reload();
-    }
-
-    this.accountService.getAccount().subscribe({
+  this.accountService.getAccount().subscribe({
       next: (response) => {
         this.userAccount = new Account(
           response.id,

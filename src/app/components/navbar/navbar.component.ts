@@ -17,11 +17,11 @@ export class NavbarComponent{
   logout() {
     localStorage.removeItem('current-user');
     localStorage.removeItem('current-account');
-       
+      
+    // adding this to reset vars in account service
     this.accountService.accountId = '';
     this.accountService.accountUrl = '';
-    
-   // this.authService.loggedIn = false;
+    // calling authservice logout, because it wasn't before
     this.authService.logout();
     
 
