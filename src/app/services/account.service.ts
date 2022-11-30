@@ -56,7 +56,7 @@ export class AccountService {
 
    refreshStorage(){
     this.userId = localStorage.getItem('current-user') || '';
-    this.accountId = localStorage.getItem('current-account') || '';
+  //  this.accountId = localStorage.getItem('current-account') || '';
    }
 
 }
