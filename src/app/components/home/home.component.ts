@@ -38,8 +38,13 @@ export class HomeComponent implements OnInit {
         this.accountMessage = "Accounts not found!"
       },
       complete: () => {
-        this.accountMessage = "Accounts were successfully retrieved from the database."
-        this.accountExists = true;
+        this.accountExists = true;        
+        if (this.accounts.length > 0) {
+          this.accountMessage = "Accounts were successfully retrieved from the database."
+        } else {
+           this.accountMessage = "No accounts were found in the database." 
+        }
+        
       //  const num = this.userAccount.balance;
       //  this.userAccount.balance = +num.toFixed(2);
       //  this.accountName.setValue(this.userAccount.name);
