@@ -102,6 +102,8 @@ export class AccountComponent implements OnInit {
           response.description,
           response.creationDate
         );
+        // setting local storage of current account var to be the gotten account id
+        localStorage.setItem('current-account', ''+ response.id);
       },
       error: () => {
         this.accountMessage = "No account was found, please create one!"
@@ -124,6 +126,7 @@ export class AccountComponent implements OnInit {
         this.accountName.setValue(this.userAccount.name);
         this.balance.setValue(this.userAccount.balance);
         this.accountDescription.setValue(this.userAccount.description);
+        
       }
     });
   }
@@ -168,7 +171,8 @@ export class AccountComponent implements OnInit {
       complete: () => {
         
         this.accounts.forEach( (acct, index) => {
-          if(acct.id.toString() === this.accountId) this.accounts.splice(index,1);
+          // cuts the current account out of the transfer-to list (ref the localstorage currentaccount var)
+          if(acct.id.toString() === localStorage.getItem('current-account')) this.accounts.splice(index,1);
         });
 
 
