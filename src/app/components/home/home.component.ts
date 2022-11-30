@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Account } from 'src/app/models/account';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +14,11 @@ export class HomeComponent implements OnInit {
 
   accountExists: boolean = false;
   createFormOpen: boolean = false;
-  userAccount!: Account;
+
+ // userAccount!: Account;
+
+  accounts!: Account[];
+
 
   accountMessage: string = '';
 
@@ -21,35 +26,59 @@ export class HomeComponent implements OnInit {
   balance: FormControl = new FormControl(['']);
   accountDescription: FormControl = new FormControl(['']);
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
 
-  this.accountService.getAccount().subscribe({
-      next: (response) => {
-        this.userAccount = new Account(
-          response.id,
-          response.name,
-          response.balance,
-          response.description,
-          response.creationDate
-        );
-      },
-      error: () => {
-        this.accountMessage = "No account was found, please create one!"
+  this.accountService.getAllAccounts().subscribe({
+     next: (response) => {
+      this.accounts = response;   
+     },
+     error: () => {
+        this.accountMessage = "Accounts not found!"
       },
       complete: () => {
-        this.accountMessage = "Account was successfully retrieved from the database."
+        this.accountMessage = "Accounts were successfully retrieved from the database."
         this.accountExists = true;
-        const num = this.userAccount.balance;
-        this.userAccount.balance = +num.toFixed(2);
-        this.accountName.setValue(this.userAccount.name);
-        this.balance.setValue(this.userAccount.balance);
-        this.accountDescription.setValue(this.userAccount.description);
-        this.accountService.accountId = ''+this.userAccount.id;
-        localStorage.setItem('current-account', ''+this.userAccount.id);
+      //  const num = this.userAccount.balance;
+      //  this.userAccount.balance = +num.toFixed(2);
+      //  this.accountName.setValue(this.userAccount.name);
+      //  this.balance.setValue(this.userAccount.balance);
+      //  this.accountDescription.setValue(this.userAccount.description);
+      //  this.accountService.accountId = ''+this.userAccount.id;
+      //  localStorage.setItem('current-account', ''+this.userAccount.id);
       }
-    });
+  });
+
+
+
+  // this.accountService.getAccount().subscribe({
+  //     next: (response) => {
+  //       this.userAccount = new Account(
+  //         response.id,
+  //         response.name,
+  //         response.balance,
+  //         response.description,
+  //         response.creationDate
+  //       );
+  //     },
+  //     error: () => {
+  //       this.accountMessage = "No account was found, please create one!"
+  //     },
+  //     complete: () => {
+  //       this.accountMessage = "Account was successfully retrieved from the database."
+  //       this.accountExists = true;
+  //       const num = this.userAccount.balance;
+  //       this.userAccount.balance = +num.toFixed(2);
+  //       this.accountName.setValue(this.userAccount.name);
+  //       this.balance.setValue(this.userAccount.balance);
+  //       this.accountDescription.setValue(this.userAccount.description);
+  //       this.accountService.accountId = ''+this.userAccount.id;
+  //       localStorage.setItem('current-account', ''+this.userAccount.id);
+  //     }
+  //   });
+
+
   }
 
 
@@ -57,19 +86,27 @@ export class HomeComponent implements OnInit {
     this.createFormOpen = true;
   }
 
-  attemptUpsertAccount(name: string, balance: number, description: string) {
-    if(!this.userAccount) {
-      this.userAccount = new Account(0, name, balance, description, null);
-    } else {
-      this.userAccount.name = name;
-      this.userAccount.balance = balance;
-      this.userAccount.description = description;
-    }
+  // click account details button
+  clickAccountDetails(e : any) {
+    let button : HTMLButtonElement = e.target;
+    let id : string = button.parentElement?.id || '';
+   // alert(id);
+    this.accountService.accountId = id;
+    this.router.navigate(['/account/']);
+   // [routerLink]="['/account/']"
+  }
 
-    this.accountService.upsertAccount(this.userAccount).subscribe({
+
+  attemptUpsertAccount(name: string, balance: number, description: string) {
+ 
+    let newAccount = new Account(0, name, balance, description, null);
+
+    let createdAccount = new Account(0, name, balance, description, null);
+
+    this.accountService.upsertAccount(newAccount).subscribe({
       next: (response) => {
-        this.userAccount.id = response.id;
-        this.userAccount.creationDate = response.creationDate;
+        createdAccount.id = response.id;
+        createdAccount.creationDate = response.creationDate;
       },
       error: () => {
         this.accountMessage = 'Account was not successfully saved!';
@@ -78,10 +115,39 @@ export class HomeComponent implements OnInit {
         this.accountExists = true;
         this.createFormOpen = false;
         this.accountMessage = 'Account was saved!';
-        this.accountService.accountId = ''+this.userAccount.id;
-        localStorage.setItem('current-account', ''+this.userAccount.id);
+        this.accountService.accountId = ''+ createdAccount.id;
+        localStorage.setItem('current-account', ''+ createdAccount.id);
       }
     })
   }
+
+//  attemptUpsertAccount(name: string, balance: number, description: string) {
+//     if(!this.userAccount) {
+//       this.userAccount = new Account(0, name, balance, description, null);
+//     } else {
+//       this.userAccount.name = name;
+//       this.userAccount.balance = balance;
+//       this.userAccount.description = description;
+//     }
+
+//     this.accountService.upsertAccount(this.userAccount).subscribe({
+//       next: (response) => {
+//         this.userAccount.id = response.id;
+//         this.userAccount.creationDate = response.creationDate;
+//       },
+//       error: () => {
+//         this.accountMessage = 'Account was not successfully saved!';
+//       },
+//       complete: () => {
+//         this.accountExists = true;
+//         this.createFormOpen = false;
+//         this.accountMessage = 'Account was saved!';
+//         this.accountService.accountId = ''+this.userAccount.id;
+//         localStorage.setItem('current-account', ''+this.userAccount.id);
+//       }
+//     })
+//   }
+
+
 
 }

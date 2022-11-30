@@ -4,6 +4,7 @@ import { Form, FormControl } from '@angular/forms';
 import { map, Observable, reduce } from 'rxjs';
 import { Account } from 'src/app/models/account';
 import { Transaction } from 'src/app/models/transaction';
+import { Transfer } from 'src/app/models/transfer';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -31,6 +32,13 @@ export class AccountComponent implements OnInit {
 
   transactions: Transaction[] = [];
 
+  // transfer vars
+  transferToAcct: FormControl = new FormControl(['']);
+  transferAmount: FormControl = new FormControl(['']);
+  transferFormOpen: boolean = false;
+
+  accounts: Account[] = [];
+
   constructor(private accountService: AccountService) { 
     this.accountId = accountService.accountId;
   }
@@ -38,6 +46,10 @@ export class AccountComponent implements OnInit {
   ngOnInit(): void {
     this.getAllTransactions();
     this.getAccount();
+
+    // for transfers, get all accounts
+    this.getAllAccounts();
+
   }
 
   addTransaction(amount: number, description: string, type: string) {
@@ -59,6 +71,7 @@ export class AccountComponent implements OnInit {
   openCreateForm() {
     this.createFormOpen = true;
   }
+
 
   getAllTransactions() {
     this.accountService.getTransactions(this.accountId).subscribe({
@@ -114,5 +127,57 @@ export class AccountComponent implements OnInit {
       }
     });
   }
+
+  // transfer stuff
+  
+  openTransferForm() {
+    this.transferFormOpen = true;
+  }
+
+
+  // makes a transfer
+  makeTransfer(amount: number, accountId: any) {
+    const fromId = Number(this.accountId);
+    const toId = accountId;
+    const transfer = new Transfer(0, fromId, toId, amount);
+
+    this.accountService.createTransfer(transfer).subscribe({
+      next: (res) => {
+        // do something with res
+      },
+      error: (e) => {
+        alert(e.message);
+      },
+      complete: () => {      
+        this.getAccount();
+      }
+    });
+  }
+
+
+
+  getAllAccounts() {
+    this.accountService.getAllAccounts().subscribe({
+      next: (resp) => {
+        this.accounts = resp;
+      },
+      error: () => {
+       // this.accountMessage = 'No transactions were retrieved...';
+       console.log("Error retrieving accounts");
+      },
+      complete: () => {
+        
+        this.accounts.forEach( (acct, index) => {
+          if(acct.id.toString() === this.accountId) this.accounts.splice(index,1);
+        });
+
+
+      }
+    }
+    );
+  }
+
+
+
 
 }
