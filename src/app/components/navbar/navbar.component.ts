@@ -10,16 +10,19 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent{
 
-  loggedIn: boolean = false;
+  //loggedIn: boolean = false;
 
-  constructor(private router: Router, private accountService : AccountService) { }
+  constructor(private router: Router, private accountService : AccountService, private authService: AuthService) { }
 
   logout() {
     localStorage.removeItem('current-user');
     localStorage.removeItem('current-account');
        
-    this.accountService.accountId = '';
-    this.accountService.accountUrl = '';
+/*     this.accountService.accountId = '';
+    this.accountService.accountUrl = ''; */
+    this.authService.loggedIn = false;
+
+    this.authService.logout();
     this.router.navigateByUrl('/login');
   }
 
