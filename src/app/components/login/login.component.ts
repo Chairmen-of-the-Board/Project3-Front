@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+
   }
 
   attemptLogin(email: string, password: string) {
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
       complete: () => {
         this.authService.loggedIn = true;
         this.router.navigateByUrl('/home');
+        
       }
     })
   }

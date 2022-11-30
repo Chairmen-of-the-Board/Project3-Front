@@ -1,7 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Account } from 'src/app/models/account';
 import { AccountService } from 'src/app/services/account.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +25,8 @@ export class HomeComponent implements OnInit {
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.accountService.getAccount().subscribe({
+
+  this.accountService.getAccount().subscribe({
       next: (response) => {
         this.userAccount = new Account(
           response.id,
@@ -49,6 +52,7 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
 
   openCreateForm() {
     this.createFormOpen = true;
