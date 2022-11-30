@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DarkmodeComponent } from './components/darkmode/darkmode.component';
+import { SendComponent } from './components/send/send.component';
+import { SendHistoryComponent } from './components/send-history/send-history.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { DarkmodeComponent } from './components/darkmode/darkmode.component';
     AccountComponent,
     HomeComponent,
     NavbarComponent,
-    DarkmodeComponent
+    DarkmodeComponent,
+    SendComponent,
+    SendHistoryComponent
   ],
   imports: [
     BrowserModule,
