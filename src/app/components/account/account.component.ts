@@ -102,8 +102,7 @@ export class AccountComponent implements OnInit {
           response.description,
           response.creationDate
         );
-        // setting local storage of current account var to be the gotten account id
-        localStorage.setItem('current-account', ''+ response.id);
+        this.accountId = ''+response.id;
       },
       error: () => {
         this.accountMessage = "No account was found, please create one!"
@@ -143,10 +142,11 @@ export class AccountComponent implements OnInit {
     const fromId = Number(this.accountId);
     const toId = accountId;
     const transfer = new Transfer(0, fromId, toId, amount);
-
+ 
     this.accountService.createTransfer(transfer).subscribe({
       next: (res) => {
         // do something with res
+       
       },
       error: (e) => {
         alert(e.message);
