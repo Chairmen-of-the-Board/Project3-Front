@@ -95,10 +95,8 @@ export class HomeComponent implements OnInit {
   clickAccountDetails(e : any) {
     let button : HTMLButtonElement = e.target;
     let id : string = button.parentElement?.id || '';
-   // alert(id);
-    this.accountService.accountId = id;
+    localStorage.setItem('current-account', id);
     this.router.navigate(['/account/']);
-   // [routerLink]="['/account/']"
   }
 
 
