@@ -44,8 +44,8 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllTransactions();
     this.getAccount();
+    this.getAllTransactions();
 
     // for transfers, get all accounts
     this.getAllAccounts();
