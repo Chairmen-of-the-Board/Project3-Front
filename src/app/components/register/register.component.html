@@ -13,8 +13,28 @@
                   <input type="password" class="form-control" [formControl]="password" id="validationDefaultPassword" placeholder="Password"  aria-describedby="inputGroupPrepend2" required>
                 </div>
               </div>
+              <div class="input-group mb-3">
+                <div class="input-group">
+                  <input type="firstname" class="form-control" [formControl]="firstname" id="validationDefaultFirstName" placeholder="First Name"  aria-describedby="inputGroupPrepend2" required>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group">
+                  <input type="lastname" class="form-control" [formControl]="lastname" id="validationDefaultLastName" placeholder="Last Name"  aria-describedby="inputGroupPrepend2" required>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group">
+                  <input type="address" class="form-control" [formControl]="address" id="validationDefaultAddress" placeholder="Address"  aria-describedby="inputGroupPrepend2" required>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group">
+                  <input type="phone" class="form-control" [formControl]="phone" id="validationDefaultPhone" placeholder="Phone Number"  aria-describedby="inputGroupPrepend2" required>
+                </div>
+              </div>
             <div class="col-12">
-              <button class="btn btn-success btn-lg" type="submit" (click)="attemptRegister(email.value, password.value);">Register</button>
+              <button class="btn btn-success btn-lg" type="submit" (click)="attemptRegister(email.value, password.value, firstname.value, lastname.value, address.value, phone.value);">Register</button>
             </div>
           </form>
           <p>{{noticeMessage}}</p>
