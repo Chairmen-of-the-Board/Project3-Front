@@ -37,10 +37,11 @@
         </form>
 
         <div class="account-card"*ngFor="let txn of transactions">
-            <h2>{{txn.description}}</h2>
+            <h2>{{txn.description}} | {{txn.timestamp}}</h2>
             <h1>{{txn.type}}: ${{txn.amount}}</h1>
         </div>
         <p>{{accountMessage}}</p>
         
     </div>
 </div>
+<app-charts></app-charts>

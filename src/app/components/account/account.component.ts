@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Form, FormControl } from '@angular/forms';
+import { ChartComponent } from 'chart.js';
 import { map, Observable, reduce } from 'rxjs';
 import { Account } from 'src/app/models/account';
 import { Transaction } from 'src/app/models/transaction';
@@ -13,6 +14,8 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
+
+  
 
   txnAmount: FormControl = new FormControl(['']);
   txnDescription: FormControl = new FormControl(['']);
@@ -30,7 +33,7 @@ export class AccountComponent implements OnInit {
 
   balanceStyle = {};
 
-  transactions: Transaction[] = [];
+  @Output() transactions: Transaction[] = [];
 
   // transfer vars
   transferToAcct: FormControl = new FormControl(['']);
@@ -40,12 +43,14 @@ export class AccountComponent implements OnInit {
   accounts: Account[] = [];
 
   constructor(private accountService: AccountService) { 
-    this.accountId = accountService.accountId;
+    // this.accountId = accountService.accountId;
+    // added below line because it's more dependable than calling accountservice.accountid
+    this.accountId = localStorage.getItem('current-account') || '';
   }
 
   ngOnInit(): void {
-    this.getAllTransactions();
     this.getAccount();
+    this.getAllTransactions();
 
     // for transfers, get all accounts
     this.getAllAccounts();
@@ -53,7 +58,7 @@ export class AccountComponent implements OnInit {
   }
 
   addTransaction(amount: number, description: string, type: string) {
-    const txn = new Transaction(0, amount, description, type);
+    const txn = new Transaction(0, amount, description, type, Date.now());
     this.accountService.createTransaction(this.accountId, txn).subscribe({
       next: () => {
         this.accountMessage = 'New transaction was saved!';

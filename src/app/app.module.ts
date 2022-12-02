@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DarkmodeComponent } from './components/darkmode/darkmode.component';
+import { ChartsComponent } from './components/charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DarkmodeComponent } from './components/darkmode/darkmode.component';
     AccountComponent,
     HomeComponent,
     NavbarComponent,
-    DarkmodeComponent
+    DarkmodeComponent,
+    ChartsComponent
   ],
   imports: [
     BrowserModule,

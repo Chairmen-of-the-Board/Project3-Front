@@ -26,11 +26,7 @@ export class RegisterComponent implements OnInit {
         localStorage.setItem('current-user', ''+response.id);
       },
       error: (err) => {
-        if(err.status == 400) {
-          this.noticeMessage = 'Please Check Your Registration Info';
-        } else {
-          this.noticeMessage = 'Server Error';
-        }
+          this.noticeMessage = err.error; 
       },
       complete: () => {
         this.router.navigateByUrl('/login');
