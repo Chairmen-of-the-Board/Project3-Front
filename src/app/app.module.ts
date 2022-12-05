@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DarkmodeComponent } from './components/darkmode/darkmode.component';
 import { RequestComponent } from './components/request/request.component';
 import { IncomingRequestsComponent } from './components/incoming-requests/incoming-requests.component';
+import { RequestFormComponent } from './components/request-form/request-form.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { IncomingRequestsComponent } from './components/incoming-requests/incomi
     NavbarComponent,
     DarkmodeComponent,
     IncomingRequestsComponent,
-    RequestComponent
+    RequestComponent,
+    RequestFormComponent
   ],
   imports: [
     BrowserModule,

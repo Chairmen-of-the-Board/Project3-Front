@@ -8,9 +8,12 @@ import { RequestService } from 'src/app/services/request.service';
 })
 export class IncomingRequestsComponent implements OnInit {
 
+  requests: any;
+
   constructor(private requestService: RequestService) { }
 
   ngOnInit(): void {
+    this.requests = this.requestService.getIncoming();
   }
 
 }

@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Account } from '../models/account';
-import { Transfer } from '../models/transfer';
+import { UserRequest } from '../models/userrequest';
 import { AccountService } from './account.service';
 
 @Injectable({
@@ -11,21 +10,25 @@ import { AccountService } from './account.service';
 })
 export class RequestService {
 
-  userID!: string;
+  userId!: string;
   userAccount: any;
-  requestURL: string = environment.url+'transfer';
+  requestUrl: string = environment.url+'request';
 
   constructor(private http: HttpClient, private accountService: AccountService) { }
 
-  getIncoming(): Observable<Transfer[]>{
-    this.userID = localStorage.getItem('current-user') || '';
-    return this.http.get<Transfer[]>(this.requestURL+`/${this.userID}/incoming`, {headers: environment.headers, withCredentials: environment.withCredentials});
+  getIncoming(): Observable<UserRequest[]>{
+    this.userId = localStorage.getItem('current-user') || '';
+    return this.http.get<UserRequest[]>(this.requestUrl+`/${this.userId}/incoming`, {headers: environment.headers, withCredentials: environment.withCredentials});
   }
 
-  getOutgoing(): Observable<Transfer[]>{
+  getOutgoing(): Observable<UserRequest[]>{
     this.userAccount = this.accountService.getAccount();
-    return this.http.get<Transfer[]>(this.requestURL+`/${this.userAccount.id}/outgoing`, {headers: environment.headers, withCredentials: environment.withCredentials})
+    return this.http.get<UserRequest[]>(this.requestUrl+`/${this.userAccount.id}/outgoing`, {headers: environment.headers, withCredentials: environment.withCredentials})
+  }
 
+  upsertRequest(request: UserRequest): Observable<UserRequest>{
+    environment.headers['Current-User'] = this.userId;
+    return this.http.post<UserRequest>(this.requestUrl, request, {headers: environment.headers, withCredentials: environment.withCredentials});
   }
 
 }
