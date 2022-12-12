@@ -4,7 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AccountComponent } from './components/account/account.component';
 import { HomeComponent } from './components/home/home.component';
-import { IncomingRequestsComponent } from './components/incoming-requests/incoming-requests.component';
+import { RequestListComponent } from './components/request-list/request-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'account', component: AccountComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'requests', component: IncomingRequestsComponent}
+  { path: 'requests', component: RequestListComponent}
 ];
 
 @NgModule({

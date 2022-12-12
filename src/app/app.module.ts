@@ -12,7 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DarkmodeComponent } from './components/darkmode/darkmode.component';
 import { RequestComponent } from './components/request/request.component';
-import { IncomingRequestsComponent } from './components/incoming-requests/incoming-requests.component';
+import { RequestListComponent } from './components/request-list/request-list.component';
+import { RequestFormComponent } from './components/request-form/request-form.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import { IncomingRequestsComponent } from './components/incoming-requests/incomi
     HomeComponent,
     NavbarComponent,
     DarkmodeComponent,
-    IncomingRequestsComponent,
-    RequestComponent
+    RequestListComponent,
+    RequestComponent,
+    RequestFormComponent
   ],
   imports: [
     BrowserModule,
