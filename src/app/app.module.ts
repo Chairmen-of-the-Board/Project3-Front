@@ -11,9 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DarkmodeComponent } from './components/darkmode/darkmode.component';
+
 import { RequestComponent } from './components/request/request.component';
 import { RequestListComponent } from './components/request-list/request-list.component';
 import { RequestFormComponent } from './components/request-form/request-form.component';
+import { ChartsComponent } from './components/charts/charts.component';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +30,8 @@ import { RequestFormComponent } from './components/request-form/request-form.com
     RequestListComponent,
     RequestComponent,
     RequestFormComponent
+    ChartsComponent
+
   ],
   imports: [
     BrowserModule,
