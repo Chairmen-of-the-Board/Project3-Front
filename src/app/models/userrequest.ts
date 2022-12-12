@@ -1,4 +1,4 @@
-export class Request{
+export class UserRequest{
     id: number;
     requestAccId: number;
     targetId: number;
