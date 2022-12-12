@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DarkmodeComponent } from './components/darkmode/darkmode.component';
+import { SendComponent } from './components/send/send.component';
+import { SendHistoryComponent } from './components/send-history/send-history.component';
 
 import { RequestComponent } from './components/request/request.component';
 import { RequestListComponent } from './components/request-list/request-list.component';
@@ -31,7 +33,8 @@ import { ChartsComponent } from './components/charts/charts.component';
     RequestComponent,
     RequestFormComponent
     ChartsComponent
-
+    SendComponent,
+    SendHistoryComponent
   ],
   imports: [
     BrowserModule,

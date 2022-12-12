@@ -5,11 +5,11 @@
         <h2 id="balance" [style]="balanceStyle">Balance: ${{balance.value}}</h2>
         <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen && !transferFormOpen" (click)="openCreateForm();">Add Transaction</button>
           <form class="input-form" *ngIf="createFormOpen">
-                <div class="input-group mb-3">   
+                <div class="input-group mb-3">
                   <select class="form-select" [formControl]="txnType" aria-label="Default select example" style="width: 30px;">
                     <option value="Expense">Expense (-)</option>
                     <option value="Income">Income (+)</option>
-                  </select>            
+                  </select>
                   <span class="input-group-text">$</span>
                   <input type="number" placeholder="Amount" [formControl]="txnAmount" class="form-control" aria-label="Amount (to the nearest dollar)">
                 </div>
@@ -41,7 +41,7 @@
             <h1>{{txn.type}}: ${{txn.amount}}</h1>
         </div>
         <p>{{accountMessage}}</p>
-        
     </div>
 </div>
 <app-charts></app-charts>
+<send></send>
