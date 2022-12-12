@@ -71,6 +71,7 @@ export class SendComponent implements OnInit {
         alert(e.message);
       },
       complete: () => {      
+        //this.getAccount();
         console.log("sent")
       }
     });
