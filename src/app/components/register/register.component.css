@@ -32,7 +32,19 @@ h2 {
     padding-right: 3%;
 }
 
+/* input:invalid {
+    border:  red 1px solid;
+}
+    
+
 p {
     padding-top: 45px;
     color: red;
+} */
+
+.form-control.ng-touched.ng-invalid{
+    border:1px solid red;
+}
+.form-control.ng-touched.ng-valid{
+    border:1px solid green;
 }

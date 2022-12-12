@@ -5,7 +5,7 @@ import { UpdateUserService } from 'src/app/services/update-user.service';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
-
+import { Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,10 +15,15 @@ import { User } from 'src/app/models/user';
 })
 export class UpdateProfileComponent implements OnInit {
 
-  email: FormControl = new FormControl(['']);
-  password: FormControl = new FormControl(['']);
-  address: FormControl = new FormControl(['']);
-  phone: FormControl = new FormControl(['']);
+  email: FormControl = new FormControl(null,[
+    Validators.required,
+    Validators.email]);
+  password: FormControl = new FormControl('', 
+  [Validators.required, Validators.minLength(6)]);
+  address: FormControl = new FormControl('',
+  [Validators.required]);
+  phone: FormControl = new FormControl('',
+  [Validators.required, Validators.minLength(10)]);
 
   noticeMessage: string = '';
   userId: any;

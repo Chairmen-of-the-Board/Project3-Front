@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { Validators } from '@angular/forms';
+
 
 
 @Component({
@@ -11,12 +13,19 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-  email: FormControl = new FormControl(['']);
-  password: FormControl = new FormControl(['']);
-  firstname: FormControl = new FormControl(['']);
-  lastname: FormControl = new FormControl(['']);
-  address: FormControl = new FormControl(['']);
-  phone: FormControl = new FormControl(['']);
+  email: FormControl = new FormControl(null,[
+    Validators.required,
+    Validators.email]);
+  password: FormControl = new FormControl('', 
+  [Validators.required, Validators.minLength(6)]);
+  firstname: FormControl = new FormControl('',
+  [Validators.required]);
+  lastname: FormControl = new FormControl('',
+  [Validators.required]);
+  address: FormControl = new FormControl('',
+  [Validators.required]);
+  phone: FormControl = new FormControl('',
+  [Validators.required, Validators.minLength(10)]);
 
   noticeMessage: string = '';
 
@@ -24,6 +33,13 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  // userCredentials = new FormGroup({
+  //   email: new FormControl('',[
+  //     Validators.required,
+  //     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])
+  // })
+ 
 
   attemptRegister(email: string, password: string, firstname: string, lastname: string, address: string, phone: string) {
     this.authService.register(email, password, firstname, lastname, address, phone).subscribe({
