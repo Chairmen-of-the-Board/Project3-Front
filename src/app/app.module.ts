@@ -18,7 +18,7 @@ import { RequestComponent } from './components/request/request.component';
 import { RequestListComponent } from './components/request-list/request-list.component';
 import { RequestFormComponent } from './components/request-form/request-form.component';
 import { ChartsComponent } from './components/charts/charts.component';
-
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +35,7 @@ import { ChartsComponent } from './components/charts/charts.component';
     ChartsComponent
     SendComponent,
     SendHistoryComponent
+    UpdateProfileComponent
   ],
   imports: [
     BrowserModule,
