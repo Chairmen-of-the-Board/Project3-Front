@@ -31,10 +31,10 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
     DarkmodeComponent,
     RequestListComponent,
     RequestComponent,
-    RequestFormComponent
-    ChartsComponent
+    RequestFormComponent,
+    ChartsComponent,
     SendComponent,
-    SendHistoryComponent
+    SendHistoryComponent,
     UpdateProfileComponent
   ],
   imports: [
