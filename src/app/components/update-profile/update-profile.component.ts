@@ -37,6 +37,7 @@ export class UpdateProfileComponent implements OnInit {
     
     this.userId = localStorage.getItem('current-user');
       this.authService.getUser(this.userId).then(res => {
+
           this.user = res;
           this.email.setValue(res.email);
           this.password.setValue(res.password);
