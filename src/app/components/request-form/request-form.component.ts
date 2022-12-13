@@ -13,9 +13,10 @@ export class RequestFormComponent implements OnInit {
   amount: FormControl = new FormControl(['']);
   description: FormControl = new FormControl(['']);
   targetId: FormControl = new FormControl(['']);
+  accountId = localStorage.getItem('current-account') || '';
   request: UserRequest = {
     id: 0,
-    requestAccId: 0,
+    requestAccId: parseInt(this.accountId),
     targetId: 0,
     amount: 0,
     description: '',
