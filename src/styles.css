@@ -5,6 +5,8 @@
 body {
     --text-color: #222;
     --bkg-color: #fff;
+    --box-shadow: 0 15px 25px rgb(43, 42, 42);
+
     --btn-txt-color: white;
     --btn-bg-color: rgb(11, 88, 160);
 
@@ -12,14 +14,35 @@ body {
   body.dark-theme {
     --text-color: #eee;
     --bkg-color: #252222;
+    --box-shadow: 0 15px 25px rgb(232, 4, 4);
+
     --btn-txt-color: rgb(46, 43, 43);
     --btn-bg-color: rgb(20, 211, 195);
 
   }
 
- 
+.main-wrap{
+  background: var(--bkg-color);
+}
+.home-wrap{
+  background: var(--bkg-color);
+}
+.account-wrap{
+  background: var(--bkg-color);
+  box-shadow: var(--box-shadow);
+
+}
+.account-wrap.dark-theme{
+  box-shadow: var(--box-shadow);
+
+
+}
 body{
     background: var(--bkg-color);
+}
+
+form{
+  background: var(--bkg-color);
 }
 
 h1,
