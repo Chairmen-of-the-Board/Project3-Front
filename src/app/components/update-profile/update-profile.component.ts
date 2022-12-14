@@ -46,10 +46,33 @@ export class UpdateProfileComponent implements OnInit {
       });
   }
 
+  changeField() {
+    this.noticeMessage = '';
+    if (this.user.email === this.email.getRawValue() &&
+    this.user.password === this.password.getRawValue() &&
+    this.user.address === this.address.getRawValue() &&
+    this.user.phone === this.phone.getRawValue()) {
+      this.toggleUpdateButtonEnabled(false);
+    } else {
+      this.toggleUpdateButtonEnabled(true);
+    }
+  }
+
+  toggleUpdateButtonEnabled(enable: boolean) {
+    let button = document.getElementById('update_button') as HTMLButtonElement;
+    let cls = button.getAttribute('class');
+    if(enable) {
+      button.setAttribute('class', 'btn btn-success btn-lg');
+    } else {
+      button.setAttribute('class', 'btn btn-success btn-lg disabled');
+    }
+  }
+
   attemptUpdate(email: string, password: string, address: string, phone: string) {
     this.updateUserService.updateUser(this.user.id,
                                     email, password, address, phone).subscribe({
       next: (response) => {
+        this.user = response;
       },
       error: (err) => {
         // if(err.status == 400) {
@@ -59,6 +82,9 @@ export class UpdateProfileComponent implements OnInit {
         // }
       },
       complete: () => {
+        this.noticeMessage = 'Profile updated.';
+        this.toggleUpdateButtonEnabled(false);
+        
         // this.router.navigateByUrl('/login');
       }
     })
