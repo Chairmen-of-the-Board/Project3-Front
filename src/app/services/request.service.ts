@@ -28,7 +28,7 @@ export class RequestService {
 
   upsertRequest(request: UserRequest): Observable<UserRequest>{
     environment.headers['Current-User'] = this.userId;
-    return this.http.post<UserRequest>(this.requestUrl, request, {headers: environment.headers, withCredentials: environment.withCredentials});
+    return this.http.post<UserRequest>(this.requestUrl, request, {withCredentials: environment.withCredentials});
   }
 
 }

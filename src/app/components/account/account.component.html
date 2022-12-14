@@ -35,6 +35,8 @@
           <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit"
             (click)="makeTransfer(transferAmount.value, transferToAcct.value);">Transfer</button>
         </form>
+        <!-- Send -->
+        <send></send>
 
         <div class="account-card"*ngFor="let txn of transactions">
             <h2>{{txn.description}} | {{txn.timestamp}}</h2>
@@ -43,6 +45,5 @@
         <p>{{accountMessage}}</p>
     </div>
 </div>
-<app-charts></app-charts>
 <send></send>
 <app-request-form></app-request-form>
