@@ -18,6 +18,7 @@ export class RequestService {
 
   getIncoming(): Observable<UserRequest[]>{
     this.userId = localStorage.getItem('current-user') || '';
+    alert(this.requestUrl+`/${this.userId}/incoming`);
     return this.http.get<UserRequest[]>(this.requestUrl+`/${this.userId}/incoming`, {headers: environment.headers, withCredentials: environment.withCredentials});
   }
 

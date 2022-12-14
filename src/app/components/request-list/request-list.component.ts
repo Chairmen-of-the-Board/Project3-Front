@@ -16,10 +16,24 @@ export class RequestListComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.mode == "out"){
-      this.requests = this.requestService.getOutgoing();
+
+      // get outgoing requests
+      this.requestService.getOutgoing().subscribe(res=> {
+        this.requests = res;
+      });
+
+
     }
     else{
-      this.requests = this.requestService.getIncoming();
+
+      // get incoming requests
+      this.requestService.getIncoming().subscribe(res=> {
+        this.requests = res;
+      });
+
+
+
+
     }
   }
 

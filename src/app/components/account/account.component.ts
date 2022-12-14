@@ -7,6 +7,7 @@ import { Account } from 'src/app/models/account';
 import { Transaction } from 'src/app/models/transaction';
 import { Transfer } from 'src/app/models/transfer';
 import { AccountService } from 'src/app/services/account.service';
+import { RequestService } from 'src/app/services/request.service';
 
 @Component({
   selector: 'app-account',
@@ -54,6 +55,8 @@ export class AccountComponent implements OnInit {
 
     // for transfers, get all accounts
     this.getAllAccounts();
+
+
 
   }
 
