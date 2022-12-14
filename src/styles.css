@@ -21,6 +21,16 @@ body {
 
   }
 
+  .account-card:hover {
+    box-shadow: var(--box-shadow);
+    transform: translate3d(10px,0,0);
+}
+
+/* h4 {
+    font-size: large;
+    color: #636363;
+} */
+
 .main-wrap{
   background: var(--bkg-color);
 }
