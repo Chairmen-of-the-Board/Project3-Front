@@ -20,7 +20,7 @@ export class RequestFormComponent implements OnInit {
     targetId: 0,
     amount: 0,
     description: '',
-    status: '',
+    status: 'Pending',
     creationDate: null
   };
 
