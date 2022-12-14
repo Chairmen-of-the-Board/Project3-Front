@@ -14,7 +14,7 @@ body {
   body.dark-theme {
     --text-color: #eee;
     --bkg-color: #252222;
-    --box-shadow: 0 15px 25px rgb(232, 4, 4);
+    --box-shadow: 0 15px 25px rgb(242, 239, 239);
 
     --btn-txt-color: rgb(46, 43, 43);
     --btn-bg-color: rgb(20, 211, 195);
