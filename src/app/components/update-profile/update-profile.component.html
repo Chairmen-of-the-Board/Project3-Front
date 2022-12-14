@@ -6,22 +6,22 @@
         <form class="row g-3">
             <div class="input-group mb-3">
               <div class="input-group">
-                <input [class.invalid] = "email.invalid && email.touched" minlength="3" type="email" class="form-control" [formControl]= "email" placeholder="Email" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" (onchange)="changeField()" required>
+                <input [class.invalid] = "email.invalid && email.touched" minlength="3" type="email" class="form-control" [formControl]= "email" placeholder="Email" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" (input)="changeField()" required>
               </div>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group">
-                  <input type="password" class="form-control" [formControl]= "password" minlength="6" maxlength="10" id="validationDefaultPassword" placeholder="Password"  aria-describedby="inputGroupPrepend2" (onchange)="changeField()" required>
+                  <input type="password" class="form-control" [formControl]= "password" minlength="6" maxlength="10" id="validationDefaultPassword" placeholder="Password"  aria-describedby="inputGroupPrepend2" (input)="changeField()" required>
                 </div>
               </div>
               <div class="input-group mb-3">
                 <div class="input-group">
-                  <input type="address" class="form-control" [formControl]="address" id="validationDefaultAddress" placeholder="Address"  aria-describedby="inputGroupPrepend2" (change)="changeField()" required>
+                  <input type="address" class="form-control" [formControl]="address" id="validationDefaultAddress" placeholder="Address"  aria-describedby="inputGroupPrepend2" (input)="changeField()" required>
                 </div>
               </div>
               <div class="input-group mb-3">
                 <div class="input-group">
-                  <input pattern="[0-9]*" type="phone" class="form-control" [formControl]="phone" minlength="10" id="validationDefaultPhone" placeholder="Phone Number"  aria-describedby="inputGroupPrepend2" (onchange)="changeField()" required>
+                  <input pattern="[0-9]*" type="phone" class="form-control" [formControl]="phone" minlength="10" id="validationDefaultPhone" placeholder="Phone Number"  aria-describedby="inputGroupPrepend2" (input)="changeField()" required>
                 </div>
               </div>
             <div class="col-12">
