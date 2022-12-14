@@ -56,6 +56,11 @@ form{
   background: var(--bkg-color);
 }
 
+div.container-fluid{
+  --bkg-color: rgb(250, 248, 248);
+
+}
+
 h1,h2,
 p {
     color: var(--text-color);
