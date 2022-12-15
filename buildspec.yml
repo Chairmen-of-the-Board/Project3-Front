@@ -5,14 +5,14 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 18.0.0
+      nodejs: 12.0.0
     commands:
       - echo install process started
       - npm install && npm install -g @angular/cli
   build:
     commands:
       - echo build process started now
-      - ng build --configuration=production
+      - ng build 
   post_build:
     commands:
       - echo build process finished
