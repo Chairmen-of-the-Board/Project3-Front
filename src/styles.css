@@ -27,6 +27,18 @@ body {
     transform: translate3d(10px,0,0);
 }
 
+.account-card {
+  margin-top: 2%;
+  width: 80%;
+  height: auto;
+  margin-right: auto;
+  margin-left: auto;
+  border-style: inset;
+  border-width: thick;
+  margin-bottom: 25px;
+  text-align: left;
+  padding: 10px;
+}
 
 h4 {
     font-size: large;

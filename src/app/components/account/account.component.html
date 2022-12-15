@@ -3,7 +3,7 @@
     <div class="account-wrap">
         <h2>Account Details: {{accountName.value}}</h2>
         <h2 id="balance" [style]="balanceStyle">Balance: {{balance.value | moneypipe}}</h2>
-        <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen && !transferFormOpen" (click)="openCreateForm();">Add Transaction</button>
+        <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen && !transferFormOpen && !requestFormOpen" (click)="openCreateForm();">Add Transaction</button>
           <form class="input-form" *ngIf="createFormOpen">
                 <div class="input-group mb-3">
                   <select class="form-select" [formControl]="txnType" aria-label="Default select example" style="width: 30px;">
@@ -18,8 +18,12 @@
                 </div>
                 <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit" (click)="addTransaction(txnAmount.value, txnDescription.value, txnType.value);">Add</button>
           </form>
+          <button class="btn btn-outline-primary btn-lg" *ngIf="!requestFormOpen && !transferFormOpen && !createFormOpen" (click)="openRequestForm();">Create Request</button>
+          <div *ngIf="requestFormOpen">
+            <app-request-form></app-request-form>
+          </div>
         <!-- Transfer -->
-        <button class="btn btn-outline-primary btn-lg" *ngIf="!transferFormOpen && !createFormOpen" (click)="openTransferForm();">Make A Transfer</button>
+        <button class="btn btn-outline-primary btn-lg" *ngIf="!transferFormOpen && !createFormOpen && !requestFormOpen" (click)="openTransferForm();">Make A Transfer</button>
         <form class="input-form" *ngIf="transferFormOpen">
           <div class="input-group mb-3">
             <span class="input-group-text">$</span>
@@ -47,4 +51,3 @@
 </div>
 <send></send>
 <app-request-list [mode]="'out'"></app-request-list>
-<app-request-form></app-request-form>
