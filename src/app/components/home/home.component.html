@@ -7,7 +7,7 @@
             <h4>Description: {{account.description}}</h4>
             <h4>Created On: {{account.creationDate}}</h4>
             <button class="btn btn-outline-secondary btn-lg" (click)="clickAccountDetails($event)">Account Details</button>
-            <h1>Balance: ${{account.balance}}</h1>
+            <h1>Balance: {{account.balance | moneypipe}}</h1>
         </div>
         <p>{{accountMessage}}</p>
         <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen" (click)="openCreateForm();">Open New Account</button>

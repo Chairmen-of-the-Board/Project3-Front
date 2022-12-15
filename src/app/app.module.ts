@@ -20,6 +20,8 @@ import { RequestFormComponent } from './components/request-form/request-form.com
 import { ChartsComponent } from './components/charts/charts.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
+import { MoneyPipe } from './pipes/moneypipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +37,8 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
     ChartsComponent,
     SendComponent,
     SendHistoryComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    MoneyPipe
   ],
   imports: [
     BrowserModule,

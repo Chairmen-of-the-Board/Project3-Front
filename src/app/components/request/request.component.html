@@ -1,5 +1,5 @@
 <div>
-    <h1>Amount: ${{request.amount}}</h1>
+    <h1>Amount: {{request.amount | moneypipe}}</h1>
     <p>Description: {{request.description}}</p>
     <p>Status: {{request.status}}</p>
     <div class="input-group mb-3" *ngIf="type == 'in' && request.status == 'Pending'">
@@ -7,7 +7,7 @@
       <select class="form-select" [formControl]="transferFromAcct" aria-label="Default select example" style="width: 30px;">
             <option value=0 disabled>Select an account</option>
             <option *ngFor="let account of accounts" [value]="account.id">
-              {{account.name}} -- {{account.balance}}
+              {{account.name}} -- {{account.balance | moneypipe}}
             </option>
           </select>
         <button class="btn btn-success btn-lg" type="submit" (click)="approveRequest()">Approve</button>
