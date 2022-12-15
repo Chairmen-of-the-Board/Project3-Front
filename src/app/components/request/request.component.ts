@@ -24,9 +24,14 @@ export class RequestComponent implements OnInit {
       this.type = "in";
     }
     this.getAllAccounts();
+    this.transferFromAcct.setValue(0);
   }
 
-  approveRequest(){
+
+  approveRequest(){   
+    //return if no account selected
+    if (this.transferFromAcct.value === 0) return;
+
      let outTransfer: Transfer = {
       id: 0,
       fromAcctId: this.transferFromAcct.value,
@@ -60,6 +65,9 @@ export class RequestComponent implements OnInit {
   }
 
   denyRequest(){
+    //return if no account selected
+    if (this.transferFromAcct.value === 0) return;
+
         this.request.status = "Denied";
         this.requestService.upsertRequest(this.request).subscribe({
           next: (res) =>{

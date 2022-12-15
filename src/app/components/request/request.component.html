@@ -3,9 +3,11 @@
     <p>Description: {{request.description}}</p>
     <p>Status: {{request.status}}</p>
     <div class="input-group mb-3" *ngIf="type == 'in' && request.status == 'Pending'">
-        <select class="form-select" [formControl]="transferFromAcct" aria-label="Default select example" style="width: 30px;">
+        
+      <select class="form-select" [formControl]="transferFromAcct" aria-label="Default select example" style="width: 30px;">
+            <option value=0 disabled>Select an account</option>
             <option *ngFor="let account of accounts" [value]="account.id">
-              {{account.name}}
+              {{account.name}} -- {{account.balance}}
             </option>
           </select>
         <button class="btn btn-success btn-lg" type="submit" (click)="approveRequest()">Approve</button>
