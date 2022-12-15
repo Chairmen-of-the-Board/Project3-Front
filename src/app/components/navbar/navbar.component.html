@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <a class="navbar-brand" [routerLink]="['/home']"><img id="revicon" src="../../../assets/images/favicon.png" alt="Revature Icon">Revature Banking</a>
         <form class="d-flex" role="search">
-            <app-darkmode></app-darkmode>
-            <a class="navbar-brand" [routerLink]="['/requests']">Incoming Requests</a>
+            <app-darkmode></app-darkmode> &nbsp;
+            <button class="btn btn-info" [routerLink]="['/update']"><i class="bi bi-person-circle" style='height:32px;width:32px;' ></i></button> &nbsp;
             <button class="btn btn-outline-danger" (click)="logout();">Logout</button>
         </form>
     </div>

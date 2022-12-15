@@ -11,8 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DarkmodeComponent } from './components/darkmode/darkmode.component';
+import { SendComponent } from './components/send/send.component';
+import { SendHistoryComponent } from './components/send-history/send-history.component';
+
 import { RequestComponent } from './components/request/request.component';
-import { IncomingRequestsComponent } from './components/incoming-requests/incoming-requests.component';
+import { RequestListComponent } from './components/request-list/request-list.component';
+import { RequestFormComponent } from './components/request-form/request-form.component';
+import { ChartsComponent } from './components/charts/charts.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +29,13 @@ import { IncomingRequestsComponent } from './components/incoming-requests/incomi
     HomeComponent,
     NavbarComponent,
     DarkmodeComponent,
-    IncomingRequestsComponent,
-    RequestComponent
+    RequestListComponent,
+    RequestComponent,
+    RequestFormComponent,
+    ChartsComponent,
+    SendComponent,
+    SendHistoryComponent,
+    UpdateProfileComponent
   ],
   imports: [
     BrowserModule,

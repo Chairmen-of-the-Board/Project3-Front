@@ -120,6 +120,7 @@ export class HomeComponent implements OnInit {
         this.accountMessage = 'Account was saved!';
         this.accountService.accountId = ''+ createdAccount.id;
         localStorage.setItem('current-account', ''+ createdAccount.id);
+        this.ngOnInit();
       }
     })
   }

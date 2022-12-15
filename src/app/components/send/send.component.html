@@ -1,0 +1,12 @@
+<form class="input-form" *ngIf="transferFormOpen">
+    <div class="input-group mb-3">
+      <span class="input-group-text">$</span>
+      <input type="number" placeholder="Amount" [formControl]="transferAmount" class="form-control"
+        aria-label="Amount (to the nearest dollar)">
+      <span class="input-group-text">To:</span>
+      <input type="number" placeholder="Recipient Account Number" [formControl]="transferToAcct" class="form-control"
+        aria-label="Account number (9 digits long)">      
+    </div>
+    <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit"
+      (click)="makeTransfer(transferAmount.value, transferToAcct.value);">Send</button>
+  </form>

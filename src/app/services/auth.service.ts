@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
@@ -8,6 +8,8 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class AuthService {
+
+
 
   authUrl: string = environment.url+'auth';
   loggedIn: boolean = false;
@@ -24,8 +26,19 @@ export class AuthService {
     this.http.post(`${this.authUrl}/logout`, null);
   }
 
-  register(email: string, password: string): Observable<any> {
-    const payload = {email: email, password: password};
+  register(email: string, password: string, firstname: string, lastname: string, address: string, phone: string): Observable<any> {
+    const payload = {email: email, password: password, firstname: firstname, lastname: lastname, address: address, phone: phone};
     return this.http.post<any>(`${this.authUrl}/register`, payload, {headers: environment.headers});
   }
-}
+
+  getUser(userId: any): Promise<User>{
+    const ret = this.http.get<User>(`${this.authUrl}/`+userId, {headers: environment.headers});
+    return firstValueFrom(ret);
+  }
+
+  }
+
+
+
+
+

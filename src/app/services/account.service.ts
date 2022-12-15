@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Account } from '../models/account';
 import { Transaction } from '../models/transaction';
 import { Transfer } from '../models/transfer';
+import { UserRequest } from '../models/userrequest';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class AccountService {
 
   userId!: string;
   accountUrl: string = environment.url+'account';
+
   accountId: string = '';
 
   constructor(private http: HttpClient) {
@@ -44,7 +46,7 @@ export class AccountService {
     environment.headers['Current-User'] = this.userId;
     return this.http.post<Account>(this.accountUrl, account, {headers: environment.headers, withCredentials: environment.withCredentials});
    }
-   
+
   createTransaction(accountId: string, txn: Transaction): Observable<Transaction> {
     return this.http.post<Transaction>(this.accountUrl+`/${accountId}/transaction`, txn, {headers: environment.headers, withCredentials: environment.withCredentials});
    }
@@ -58,5 +60,7 @@ export class AccountService {
     this.userId = localStorage.getItem('current-user') || '';
     this.accountId = localStorage.getItem('current-account') || '';
    }
+
+
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-request',
@@ -11,5 +11,7 @@ export class RequestComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Input() request: any = null;
 
 }

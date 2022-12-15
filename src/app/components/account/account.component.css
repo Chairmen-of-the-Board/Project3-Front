@@ -10,8 +10,6 @@
     position: relative;
     width: 80%;
     height: 750px;
-    background: white;
-    box-shadow: 0 15px 25px #000;
     text-align: center;
     padding-bottom: 10%;
     padding-top: 3%;
@@ -42,7 +40,7 @@ h1 {
     transition: 0.4s ease-out;
 }
 
-.account-card:hover {
+/* .account-card:hover {
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
     transform: translate3d(10px,0,0);
 }
@@ -50,7 +48,7 @@ h1 {
 h4 {
     font-size: large;
     color: #636363;
-}
+} */
 
 .input-form {
     margin-top: 10px;
