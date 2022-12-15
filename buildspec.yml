@@ -18,10 +18,6 @@ phases:
     commands:
       - echo build process started now
       - ng build 
-  post_build:
-    commands:
-      - echo build process finished
-      - mv scripts ./dist/banking-frontend-angular
 artifacts:
   files:
     - "**/*"
