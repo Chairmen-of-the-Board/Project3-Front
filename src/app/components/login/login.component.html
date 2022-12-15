@@ -2,13 +2,13 @@
     <div class="form-wrap">
         <img id="revImg" src="../../../assets/images/rev-logo.png" alt="Revature">
         <h2>Banking Login</h2>
-        <form class="row g-3">
+        <form class="row g-0">
             <div class="input-group mb-3">
               <div class="input-group">
                 <input type="text" class="form-control" [formControl]="email" placeholder="Email Address" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" required>
               </div>
             </div>
-            <div class="input-group mb-3">
+            <div class="input-group mb-4">
                 <div class="input-group">
                   <input type="password" class="form-control" [formControl]="password" id="validationDefaultPassword" placeholder="Password"  aria-describedby="inputGroupPrepend2" required>
                 </div>
@@ -16,6 +16,7 @@
             <div class="col-12">
               <button class="btn btn-success btn-lg" type="submit" (click)="attemptLogin(email.value, password.value);">Login</button>
             </div>
+            &nbsp;
             <div class="col-12">
                 <button class="btn btn-outline-secondary btn-lg" type="submit" [routerLink]="['/register']">Register</button>
               </div>
