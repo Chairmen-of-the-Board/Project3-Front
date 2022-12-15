@@ -71,7 +71,7 @@ export class SendComponent implements OnInit {
         alert(e.message);
       },
       complete: () => {      
-        console.log("sent")
+        console.log("sent");
       }
     });
   }

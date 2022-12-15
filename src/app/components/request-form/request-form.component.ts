@@ -31,13 +31,11 @@ export class RequestFormComponent implements OnInit {
   }
 
   attemptUpsert(amount: number, targetId: number, description: string){
-    alert('attemptupsert');
     this.request.amount = amount;
     this.request.targetId = targetId;
     this.request.description = description;
     this.requestService.upsertRequest(this.request).subscribe({
       next: (response) => {
-        alert(this.request.amount + '\n' + this.request.targetId);
       },
       error: (err) => {
 
