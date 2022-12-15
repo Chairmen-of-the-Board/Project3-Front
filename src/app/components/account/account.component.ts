@@ -41,6 +41,7 @@ export class AccountComponent implements OnInit {
   transferToAcct: FormControl = new FormControl(['']);
   transferAmount: FormControl = new FormControl(['']);
   transferFormOpen: boolean = false;
+  requestFormOpen: boolean = false;
 
   accounts: Account[] = [];
 
@@ -81,6 +82,10 @@ export class AccountComponent implements OnInit {
 
   openCreateForm() {
     this.createFormOpen = true;
+  }
+
+  openRequestForm() {
+    this.requestFormOpen = true;
   }
 
 
