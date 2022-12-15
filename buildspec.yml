@@ -4,10 +4,9 @@ env:
     APP_NAME: "banking-frontend-angular"
 phases:
   install:
-    runtime-versions:
-      nodejs: 14
     commands:
       - echo install process started
+      - n latest
       - npm install && npm install -g @angular/cli 
   build:
     commands:
