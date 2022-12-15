@@ -2,7 +2,11 @@ version: 0.2
 env:
 #zxcvc
   variables:
-    APP_NAME: "banking-frontend-angular"
+      CACHE_CONTROL: "86400"
+      S3_BUCKET: "{{s3_bucket_url}}"
+      BUILD_FOLDER: "dist"
+
+    
 phases:
   install:
     runtime-versions:
@@ -21,5 +25,5 @@ phases:
 artifacts:
   files:
     - "**/*"
-  discard-paths: no
-  base-directory: dist/banking-frontend-angular
+  discard-paths: yes
+  base-directory: 'dist*'

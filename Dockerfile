@@ -1,11 +1,10 @@
 # Stage 1
-FROM node:18.0.0 as build
+FROM node:alpine
 WORKDIR /app
-COPY . .
+COPY package.json .
+
 
 RUN npm install
-RUN npm run build
-# Stage 2
-FROM nginx:alpine
-COPY --from=build /app/dist/banking-frontend-angular /usr/share/nginx/html
-EXPOSE 80
+COPY . .
+EXPOSE 4200
+RUN npm run start
