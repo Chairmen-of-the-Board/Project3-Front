@@ -6,6 +6,7 @@ import { map, Observable, reduce } from 'rxjs';
 import { Account } from 'src/app/models/account';
 import { Transaction } from 'src/app/models/transaction';
 import { Transfer } from 'src/app/models/transfer';
+import { MoneyPipe } from 'src/app/pipes/moneypipe';
 import { AccountService } from 'src/app/services/account.service';
 import { RequestService } from 'src/app/services/request.service';
 
@@ -40,6 +41,7 @@ export class AccountComponent implements OnInit {
   transferToAcct: FormControl = new FormControl(['']);
   transferAmount: FormControl = new FormControl(['']);
   transferFormOpen: boolean = false;
+  requestFormOpen: boolean = false;
 
   accounts: Account[] = [];
 
@@ -56,9 +58,11 @@ export class AccountComponent implements OnInit {
     // for transfers, get all accounts
     this.getAllAccounts();
 
-
+    
 
   }
+
+
 
   addTransaction(amount: number, description: string, type: string) {
     const txn = new Transaction(0, amount, description, type, Date.now());
@@ -78,6 +82,10 @@ export class AccountComponent implements OnInit {
 
   openCreateForm() {
     this.createFormOpen = true;
+  }
+
+  openRequestForm() {
+    this.requestFormOpen = true;
   }
 
 

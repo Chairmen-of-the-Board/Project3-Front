@@ -11,20 +11,20 @@ import { AccountService } from './account.service';
 export class RequestService {
 
   userId!: string;
+  accountId!: string;
   userAccount: any;
   requestUrl: string = environment.url+'request';
 
-  constructor(private http: HttpClient, private accountService: AccountService) { }
+  constructor(private http: HttpClient) { }
 
   getIncoming(): Observable<UserRequest[]>{
     this.userId = localStorage.getItem('current-user') || '';
-    alert(this.requestUrl+`/${this.userId}/incoming`);
     return this.http.get<UserRequest[]>(this.requestUrl+`/${this.userId}/incoming`, {headers: environment.headers, withCredentials: environment.withCredentials});
   }
 
   getOutgoing(): Observable<UserRequest[]>{
-    this.userAccount = this.accountService.getAccount();
-    return this.http.get<UserRequest[]>(this.requestUrl+`/${this.userAccount.id}/outgoing`, {headers: environment.headers, withCredentials: environment.withCredentials})
+    this.accountId = localStorage.getItem('current-account') || '';
+    return this.http.get<UserRequest[]>(this.requestUrl+`/${this.accountId}/outgoing`, {headers: environment.headers, withCredentials: environment.withCredentials})
   }
 
   upsertRequest(request: UserRequest): Observable<UserRequest>{

@@ -16,7 +16,6 @@ export class RequestListComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.mode == "out"){
-
       // get outgoing requests
       this.requestService.getOutgoing().subscribe(res=> {
         this.requests = res;

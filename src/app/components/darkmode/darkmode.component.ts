@@ -7,13 +7,30 @@ import { throttleTime } from 'rxjs';
   styleUrls: ['./darkmode.component.css']
 })
 export class DarkmodeComponent implements OnInit {
+  darkTheme = 'false';
 
   constructor() { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('dark-theme')=='true'){
+      document.body.classList.toggle('dark-theme');
+    }
+
   }
   toggleDarkTheme(): void {
-    document.body.classList.toggle('dark-theme');
+    if(localStorage.getItem('dark-theme') == 'true'){
+      document.body.classList.toggle('dark-theme');
+      localStorage.setItem('dark-theme', 'false');
+
+    }
+    else{
+      localStorage.setItem('dark-theme', 'true');
+      document.body.classList.toggle('dark-theme');
+
+
+    }
+
+
  }
 
 }

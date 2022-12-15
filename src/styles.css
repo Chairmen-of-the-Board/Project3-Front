@@ -27,6 +27,19 @@ body {
     transform: translate3d(10px,0,0);
 }
 
+.account-card {
+  margin-top: 2%;
+  width: 80%;
+  height: auto;
+  margin-right: auto;
+  margin-left: auto;
+  border-style: inset;
+  border-width: thick;
+  margin-bottom: 25px;
+  text-align: left;
+  padding: 10px;
+}
+
 h4 {
     font-size: large;
     color: var(--text-color)
@@ -56,6 +69,11 @@ form{
   background: var(--bkg-color);
 }
 
+div.container-fluid{
+  --bkg-color: rgb(250, 248, 248);
+
+}
+
 h1,h2,
 p {
     color: var(--text-color);
@@ -64,7 +82,7 @@ p {
 button {
     padding: 10px;
     border: none;
-    border-radius: 2px;
+    border-radius: 5px;
     color:var(--btn-txt-color);
     background-color: var(--btn-bg-color);
 }
