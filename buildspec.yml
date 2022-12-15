@@ -5,7 +5,7 @@ env:
       CACHE_CONTROL: "86400"
       S3_BUCKET: "{{s3_bucket_url}}"
       BUILD_FOLDER: "dist"
-
+#sfdgrsdg
     
 phases:
   install:
