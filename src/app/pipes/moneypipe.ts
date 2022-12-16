@@ -7,6 +7,8 @@ export class MoneyPipe implements PipeTransform {
 
     transform(amount : number): string {
 
+        if (amount == 0) return '$0.00';
+
             let amountStr: string = String(amount);
             let decimalStr: string = '00';
 

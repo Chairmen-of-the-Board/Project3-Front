@@ -18,10 +18,8 @@
                 </div>
                 <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit" (click)="addTransaction(txnAmount.value, txnDescription.value, txnType.value);">Add</button>
           </form>
-          <button class="btn btn-outline-primary btn-lg" *ngIf="!requestFormOpen && !transferFormOpen && !createFormOpen" (click)="openRequestForm();">Create Request</button>
-          <div *ngIf="requestFormOpen">
-            <app-request-form></app-request-form>
-          </div>
+        <!-- Request -->
+        <button class="btn btn-lg btn-outline-primary" (click)="openModal(requestModal)">Create Request</button>
         <!-- Transfer -->
         <button class="btn btn-outline-primary btn-lg" *ngIf="!transferFormOpen && !createFormOpen && !requestFormOpen" (click)="openTransferForm();">Make A Transfer</button>
         <form class="input-form" *ngIf="transferFormOpen">
@@ -40,7 +38,7 @@
             (click)="makeTransfer(transferAmount.value, transferToAcct.value);">Transfer</button>
         </form>
         <!-- Send -->
-        <send></send>
+        <button class="btn btn-lg btn-outline-primary" (click)="openModal(sendModal)">Send Money</button>
 
         <div class="account-card"*ngFor="let txn of transactions">
             <h2>{{txn.description}} | {{txn.timestamp}}</h2>
@@ -49,5 +47,37 @@
         <p>{{accountMessage}}</p>
     </div>
 </div>
-<send></send>
 <app-request-list [mode]="'out'"></app-request-list>
+
+
+<!-- Request Modal -->
+  <ng-template #requestModal let-modal>  
+    <div class="modal-header">  
+      <h4 class="modal-title" id="modal-basic-title">Create Request</h4>  
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">  
+        <span aria-hidden="true">×</span>  
+      </button>  
+    </div>  
+    <div class="modal-body">     
+      <app-request-form (submit)="modal.close('Submitted')"></app-request-form>  
+    </div>  
+    <div class="modal-footer">  
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>  
+    </div>  
+  </ng-template>
+
+  <!-- Send Modal -->
+  <ng-template #sendModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Send Money</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <send (submit)="modal.close('Submitted')"></send>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+  </ng-template>

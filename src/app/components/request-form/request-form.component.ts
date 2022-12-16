@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserRequest } from 'src/app/models/userrequest';
 import { RequestService } from 'src/app/services/request.service';
@@ -9,6 +9,8 @@ import { RequestService } from 'src/app/services/request.service';
   styleUrls: ['./request-form.component.css']
 })
 export class RequestFormComponent implements OnInit {
+
+  @Output() submit: EventEmitter<void> = new EventEmitter<void>();
 
   amount: FormControl = new FormControl(['']);
   description: FormControl = new FormControl(['']);
@@ -41,7 +43,7 @@ export class RequestFormComponent implements OnInit {
 
       },
       complete: () => {
-        
+        this.submit.emit();
       }
     });
   }

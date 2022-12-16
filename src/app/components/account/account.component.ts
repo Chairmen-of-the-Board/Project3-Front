@@ -2,13 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Output } from '@angular/core';
 import { Form, FormControl } from '@angular/forms';
 import { ChartComponent } from 'chart.js';
-import { map, Observable, reduce } from 'rxjs';
+import { map, Observable, reduce, Subscription } from 'rxjs';
 import { Account } from 'src/app/models/account';
 import { Transaction } from 'src/app/models/transaction';
 import { Transfer } from 'src/app/models/transfer';
 import { MoneyPipe } from 'src/app/pipes/moneypipe';
 import { AccountService } from 'src/app/services/account.service';
 import { RequestService } from 'src/app/services/request.service';
+  
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';    
+
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-account',
@@ -16,8 +21,6 @@ import { RequestService } from 'src/app/services/request.service';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-
-  
 
   txnAmount: FormControl = new FormControl(['']);
   txnDescription: FormControl = new FormControl(['']);
@@ -45,11 +48,44 @@ export class AccountComponent implements OnInit {
 
   accounts: Account[] = [];
 
-  constructor(private accountService: AccountService) { 
+  //modal vars
+  modalCloseResult: string = '';
+
+  // open modal
+  openModal(content:any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.modalCloseResult = `Closed with: ${result}`;
+
+      // if the form is submitted in the modal body, refresh the account in view (wait 400ms for transfer)
+      if (result == 'Submitted') {
+         setTimeout(() => this.getAccount(),400);
+         
+      }
+
+    }, (reason) => {
+      this.modalCloseResult = `Dismissed ${this.getDismissReason(reason)}`;      
+    });
+  } 
+  // get modal dismiss case
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+
+
+  constructor(private accountService: AccountService, private modalService: NgbModal) { 
     // this.accountId = accountService.accountId;
     // added below line because it's more dependable than calling accountservice.accountid
     this.accountId = localStorage.getItem('current-account') || '';
+    
   }
+
 
   ngOnInit(): void {
     this.getAccount();
