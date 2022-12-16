@@ -3,6 +3,40 @@
     <div class="account-wrap">
         <h2>Account Details: {{accountName.value}}</h2>
         <h2 id="balance" [style]="balanceStyle">Balance: {{balance.value | moneypipe}}</h2>
+        
+        <ul class="nav nav-pills nav-justified">
+          <li class="nav-item">
+            <a id="navlink-requests" class="nav-link" aria-current="page" (click)="navToAccountSection('requests')">requests</a>
+          </li>
+          <li class="nav-item">
+            <a id="navlink-transactions" class="nav-link active"  (click)="navToAccountSection('transactions')">transactions</a>
+          </li>
+          <li class="nav-item">
+            <a id="navlink-transfers" class="nav-link"  (click)="navToAccountSection('transfers')">transfers</a>
+          </li>
+        </ul>
+
+        <hr>
+          <ng-container #requestsSection *ngIf="currentNavSection == 'requests';else transactionsSection">
+            <app-request-list [mode]="'out'"></app-request-list>
+          </ng-container>
+          <ng-template #transactionsSection>
+            <ng-container *ngIf="currentNavSection == 'transactions';else transfersSection">
+              <h2>Transactions</h2>
+                <div class="account-card" *ngFor="let txn of transactions">
+                  <h2>{{txn.description}} | {{txn.timestamp}}</h2>
+                  <h1>{{txn.type}}: {{txn.amount | moneypipe}}</h1>
+                </div>
+            </ng-container>
+          </ng-template>
+          <ng-template #transfersSection>
+            <h2>Transfers</h2>
+            <app-transfer-list></app-transfer-list>
+          </ng-template>
+        <hr>
+        
+        
+        <!-- Transaction -->
         <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen && !transferFormOpen && !requestFormOpen" (click)="openCreateForm();">Add Transaction</button>
           <form class="input-form" *ngIf="createFormOpen">
                 <div class="input-group mb-3">
@@ -39,15 +73,10 @@
         </form>
         <!-- Send -->
         <button class="btn btn-lg btn-outline-primary" (click)="openModal(sendModal)">Send Money</button>
-
-        <div class="account-card"*ngFor="let txn of transactions">
-            <h2>{{txn.description}} | {{txn.timestamp}}</h2>
-            <h1>{{txn.type}}: {{txn.amount | moneypipe}}</h1>
-        </div>
         <p>{{accountMessage}}</p>
     </div>
 </div>
-<app-request-list [mode]="'out'"></app-request-list>
+
 
 
 <!-- Request Modal -->

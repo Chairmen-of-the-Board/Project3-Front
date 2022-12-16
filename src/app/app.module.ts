@@ -21,6 +21,8 @@ import { ChartsComponent } from './components/charts/charts.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
 import { MoneyPipe } from './pipes/moneypipe';
+import { TransferComponent } from './components/transfer/transfer.component';
+import { TransferListComponent } from './components/transfer-list/transfer-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { MoneyPipe } from './pipes/moneypipe';
     SendComponent,
     SendHistoryComponent,
     UpdateProfileComponent,
-    MoneyPipe
+    MoneyPipe,
+    TransferComponent,
+    TransferListComponent
   ],
   imports: [
     BrowserModule,

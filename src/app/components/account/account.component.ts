@@ -14,6 +14,7 @@ import { RequestService } from 'src/app/services/request.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';    
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -21,6 +22,8 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
+
+  currentNavSection: string = 'transactions';
 
   txnAmount: FormControl = new FormControl(['']);
   txnDescription: FormControl = new FormControl(['']);
@@ -58,7 +61,7 @@ export class AccountComponent implements OnInit {
 
       // if the form is submitted in the modal body, refresh the account in view (wait 400ms for transfer)
       if (result == 'Submitted') {
-         setTimeout(() => this.getAccount(),400);
+         setTimeout(() => this.ngOnInit(),400);
          
       }
 
@@ -94,10 +97,35 @@ export class AccountComponent implements OnInit {
     // for transfers, get all accounts
     this.getAllAccounts();
 
-    
-
   }
 
+  navToAccountSection(section: string) {
+    
+    let navlinkRequests = document.getElementById("navlink-requests") as HTMLAnchorElement;
+    let navlinkTransactions = document.getElementById("navlink-transactions") as HTMLAnchorElement;
+    let navlinkTransfers = document.getElementById("navlink-transfers") as HTMLAnchorElement;
+
+    navlinkRequests.setAttribute('class', 'nav-link');
+    navlinkTransactions.setAttribute('class', 'nav-link');
+    navlinkTransfers.setAttribute('class', 'nav-link');
+
+    this.currentNavSection = section;
+
+    switch(section) {
+      case 'requests':
+        navlinkRequests.setAttribute('class', 'nav-link active');
+        break;
+      case 'transactions':
+        navlinkTransactions.setAttribute('class', 'nav-link active');
+        break;
+      case 'transfers':
+        navlinkTransfers.setAttribute('class', 'nav-link active');
+        break;
+      default:
+        //do default
+        break;
+    }
+  }
 
 
   addTransaction(amount: number, description: string, type: string) {
