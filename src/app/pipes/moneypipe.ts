@@ -6,10 +6,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class MoneyPipe implements PipeTransform {
 
     transform(amount : number): string {
-
+        let isNegative: boolean = false;
         if (amount == 0) return '$0.00';
 
             let amountStr: string = String(amount);
+
+            if (amountStr.startsWith('-')) {
+                isNegative = true;
+                amountStr = amountStr.substring(1);
+            }
+
+
             let decimalStr: string = '00';
 
             if (amountStr.includes(".")) {
@@ -32,6 +39,10 @@ export class MoneyPipe implements PipeTransform {
             }
                 
             finalAmountStr = finalAmountStr + '.' + decimalStr;
+
+
+            if (isNegative)
+                finalAmountStr = '-' + finalAmountStr;
 
             return '$' + finalAmountStr;
 
