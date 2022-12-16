@@ -1,24 +1,25 @@
 version: 0.2
 env:
+#zxcvc
   variables:
-    APP_NAME: "banking-frontend-angular"
+      CACHE_CONTROL: "86400"
+      S3_BUCKET: "{{s3_bucket_url}}"
+      BUILD_FOLDER: "dist"
+#sfdgrsdgadfdaiguyg
+    
 phases:
   install:
     runtime-versions:
-      nodejs: 14.x
+      nodejs: 16
     commands:
       - echo install process started
-      - npm install && npm install -g @angular/cli
+      - npm install && npm install -g @angular/cli 
   build:
     commands:
       - echo build process started now
-      - ng build --configuration=production
-  post_build:
-    commands:
-      - echo build process finished
-      - mv scripts ./dist/banking-frontend-angular
+      - ng build 
 artifacts:
   files:
     - "**/*"
-  discard-paths: no
-  base-directory: dist/banking-frontend-angular
+  discard-paths: yes
+  base-directory: 'dist*'
