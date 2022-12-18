@@ -1,7 +1,8 @@
 <app-navbar></app-navbar>
 <div class="home-wrap">
     <div class="account-wrap" *ngIf="accountExists">
-        <h2>My Accounts</h2>
+        <h1><b>My Accounts</b></h1>
+        <app-request-list></app-request-list>
         <div *ngFor="let account of accounts" [id]="account.id"  class="account-card">
             <h2>{{account.name}}</h2>
             <h4>Description: {{account.description}}</h4>
@@ -24,6 +25,5 @@
               </div>
               <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit" (click)="attemptUpsertAccount(accountName.value, balance.value, accountDescription.value);">Save</button>
         </form>
-        <app-request-list></app-request-list>
     </div>
 </div>

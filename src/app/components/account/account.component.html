@@ -1,79 +1,67 @@
 <app-navbar></app-navbar>
-<div class="home-wrap">
+<br><br>
+<div class="home-wrap">  
     <div class="account-wrap">
-        <h2>Account Details: {{accountName.value}}</h2>
-        <h2 id="balance" [style]="balanceStyle">Balance: {{balance.value | moneypipe}}</h2>
+      <h2>Account Details: {{accountName.value}}</h2> 
+      <h2 id="balance" [style]="balanceStyle">Balance: {{balance.value | moneypipe}}</h2>
+      <div style="display: flex;justify-content: flex-start;">
+        <button class="btn btn-lg btn-secondary" routerLink="/home"><i class="bi bi-arrow-90deg-up"></i>Back To 
+        Accounts</button>       
+      </div>
+
+      <!-- Buttons 
+      <div>
         
-        <ul class="nav nav-pills nav-justified">
+        <button class="btn btn-lg btn-outline-primary" (click)="openModal(sendModal)">Send Money</button>
+      </div> -->
+
+      <hr>
+
+      <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs nav-justified">
           <li class="nav-item">
-            <a id="navlink-requests" class="nav-link" aria-current="page" (click)="navToAccountSection('requests')">requests</a>
+            <a id="navlink-transactions" class="nav-link active" (click)="navToAccountSection('transactions')">Transactions</a>
           </li>
           <li class="nav-item">
-            <a id="navlink-transactions" class="nav-link active"  (click)="navToAccountSection('transactions')">transactions</a>
+            <a id="navlink-requests" class="nav-link" aria-current="page" (click)="navToAccountSection('requests')">Requests</a>
           </li>
           <li class="nav-item">
-            <a id="navlink-transfers" class="nav-link"  (click)="navToAccountSection('transfers')">transfers</a>
+            <a id="navlink-transfers" class="nav-link"  (click)="navToAccountSection('transfers')">Transfers</a>
           </li>
         </ul>
-
-        <hr>
-          <ng-container #requestsSection *ngIf="currentNavSection == 'requests';else transactionsSection">
-            <app-request-list [mode]="'out'"></app-request-list>
-          </ng-container>
-          <ng-template #transactionsSection>
-            <ng-container *ngIf="currentNavSection == 'transactions';else transfersSection">
-              <h2>Transactions</h2>
-                <div class="account-card" *ngFor="let txn of transactions">
-                  <h2>{{txn.description}} | {{txn.timestamp}}</h2>
-                  <h1>{{txn.type}}: {{txn.amount | moneypipe}}</h1>
-                </div>
-            </ng-container>
-          </ng-template>
-          <ng-template #transfersSection>
-            <h2>Transfers</h2>
-            <app-transfer-list></app-transfer-list>
-          </ng-template>
-        <hr>
-        
-        
-        <!-- Transaction -->
-        <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen && !transferFormOpen && !requestFormOpen" (click)="openCreateForm();">Add Transaction</button>
-          <form class="input-form" *ngIf="createFormOpen">
-                <div class="input-group mb-3">
-                  <select class="form-select" [formControl]="txnType" aria-label="Default select example" style="width: 30px;">
-                    <option value="Expense">Expense (-)</option>
-                    <option value="Income">Income (+)</option>
-                  </select>
-                  <span class="input-group-text">$</span>
-                  <input type="number" placeholder="Amount" [formControl]="txnAmount" class="form-control" aria-label="Amount" >
-                </div>
-                <div class="input-group">
-                  <textarea class="form-control" [formControl]="txnDescription" placeholder="Account Description..." aria-label="With textarea"></textarea>
-                </div>
-                <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit" (click)="addTransaction(txnAmount.value, txnDescription.value, txnType.value);">Add</button>
-          </form>
-        <!-- Request -->
-        <button class="btn btn-lg btn-outline-primary" (click)="openModal(requestModal)">Create Request</button>
-        <!-- Transfer -->
-        <button class="btn btn-outline-primary btn-lg" *ngIf="!transferFormOpen && !createFormOpen && !requestFormOpen" (click)="openTransferForm();">Make A Transfer</button>
-        <form class="input-form" *ngIf="transferFormOpen">
-          <div class="input-group mb-3">
-            <span class="input-group-text">$</span>
-            <input type="number" placeholder="Amount" [formControl]="transferAmount" class="form-control"
-              aria-label="Amount (to the nearest dollar)">
-            <span class="input-group-text">To:</span>
-            <select class="form-select" [formControl]="transferToAcct" aria-label="Default select example" style="width: 30px;">
-              <option *ngFor="let account of accounts" [value]="account.id">
-                {{account.name}}
-              </option>
-            </select>
+      <hr>
+      <!-- Navigation Content (tab-dependent) -->
+        <ng-container #requestsSection *ngIf="currentNavSection == 'requests';else transactionsSection">
+          <div class="spacerline">
+            <h2>Requests :</h2>
+            <button class="btn btn-lg btn-outline-primary" (click)="openModal(requestModal)">&plus; Request</button>
           </div>
-          <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit"
-            (click)="makeTransfer(transferAmount.value, transferToAcct.value);">Transfer</button>
-        </form>
-        <!-- Send -->
-        <button class="btn btn-lg btn-outline-primary" (click)="openModal(sendModal)">Send Money</button>
-        <p>{{accountMessage}}</p>
+          <app-request-list [mode]="'out'" #requestlist></app-request-list>          
+        </ng-container>
+        <ng-template #transactionsSection>
+          <ng-container *ngIf="currentNavSection == 'transactions';else transfersSection">
+            <div class="spacerline"> 
+              <h2>Transactions:</h2> 
+              <button class="btn btn-lg btn-outline-primary" (click)="openModal(transactionModal)">&plus; Transaction</button>
+            </div>
+              <div class="account-card" *ngFor="let txn of transactions">
+                <h2>{{txn.description}} | {{txn.timestamp}}</h2>
+                <h1>{{txn.type}}: {{txn.amount | moneypipe}}</h1>
+              </div>
+              
+
+          </ng-container>
+        </ng-template>
+        <ng-template #transfersSection>
+          <div class="spacerline">
+            <h2>Transfers</h2>
+            <button class="btn btn-lg btn-outline-primary" (click)="openModal(transferModal)">&plus; Transfer</button>
+          </div>
+          <app-transfer-list></app-transfer-list>
+          
+        </ng-template>
+        <hr>        
+   
     </div>
 </div>
 
@@ -88,25 +76,47 @@
       </button>  
     </div>  
     <div class="modal-body">     
-      <app-request-form (submit)="modal.close('Submitted')"></app-request-form>  
+      <app-request-form (submit)="modal.close('SubmittedRequest')"></app-request-form>  
     </div>  
     <div class="modal-footer">  
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>  
+    <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
     </div>  
   </ng-template>
 
-  <!-- Send Modal -->
-  <ng-template #sendModal let-modal>
+  <!-- Transaction Modal -->
+  <ng-template #transactionModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Send Money</h4>
+      <h4 class="modal-title" id="modal-basic-title">Add Transaction</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">×</span>
       </button>
     </div>
     <div class="modal-body">
-      <send (submit)="modal.close('Submitted')"></send>
+      <app-transaction-form (submit)="modal.close('Submitted')"></app-transaction-form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
+    </div>
+  </ng-template>
+
+  <!-- Transfer Modal -->
+  <ng-template #transferModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Transfer Money</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <h5>Transfer Money To One of Your Other Accounts:</h5><br>
+      <app-transfer-form [accounts]="accounts" (submit)="modal.close('Submitted')"></app-transfer-form><br>
+      <h6 align="center">-- <b><i>OR</i></b> --</h6>
+      <h5>Send Money To Someone Else:</h5><br>
+      <send (submit)="modal.close('Submitted')"></send><br>
+
+    </div>
+    <div class="modal-footer">
+      <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
     </div>
   </ng-template>

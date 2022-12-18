@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { Form, FormControl } from '@angular/forms';
 import { ChartComponent } from 'chart.js';
 import { map, Observable, reduce, Subscription } from 'rxjs';
@@ -15,6 +15,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { RequestListComponent } from '../request-list/request-list.component';
 
 @Component({
   selector: 'app-account',
@@ -23,14 +24,17 @@ import { Router } from '@angular/router';
 })
 export class AccountComponent implements OnInit {
 
+  // navigation
   currentNavSection: string = 'transactions';
 
-  txnAmount: FormControl = new FormControl(['']);
-  txnDescription: FormControl = new FormControl(['']);
+  //request list child reference
+  @ViewChild('requestlist') requestList!: RequestListComponent; 
+
+
   accountId: string = '';
-  txnType: FormControl = new FormControl(['']);
   userAccount!: Account;
   
+  // account display forms
   accountName: FormControl = new FormControl(['']);
   balance: FormControl = new FormControl(['']);
   accountDescription: FormControl = new FormControl(['']);
@@ -43,9 +47,7 @@ export class AccountComponent implements OnInit {
 
   @Output() transactions: Transaction[] = [];
 
-  // transfer vars
-  transferToAcct: FormControl = new FormControl(['']);
-  transferAmount: FormControl = new FormControl(['']);
+
   transferFormOpen: boolean = false;
   requestFormOpen: boolean = false;
 
@@ -60,8 +62,16 @@ export class AccountComponent implements OnInit {
       this.modalCloseResult = `Closed with: ${result}`;
 
       // if the form is submitted in the modal body, refresh the account in view (wait 400ms for transfer)
-      if (result == 'Submitted') {
-         setTimeout(() => this.ngOnInit(),400);
+      if (result.includes('Submitted')) {        
+        
+        if (result.includes('Request')) {
+          setTimeout(() => this.requestList.updateRequests(),400);
+          
+        }
+
+        setTimeout(() => this.ngOnInit(),400);
+
+       
          
       }
 
@@ -88,6 +98,8 @@ export class AccountComponent implements OnInit {
     this.accountId = localStorage.getItem('current-account') || '';
     
   }
+
+
 
 
   ngOnInit(): void {
@@ -127,22 +139,6 @@ export class AccountComponent implements OnInit {
     }
   }
 
-
-  addTransaction(amount: number, description: string, type: string) {
-    const txn = new Transaction(0, amount, description, type, Date.now());
-    this.accountService.createTransaction(this.accountId, txn).subscribe({
-      next: () => {
-        this.accountMessage = 'New transaction was saved!';
-      },
-      error: () => {
-        this.accountMessage = 'New transaction was not saved...';
-      },
-      complete: () => {
-        this.getAccount();
-        this.getAllTransactions();
-      }
-    });
-  }
 
   openCreateForm() {
     this.createFormOpen = true;
@@ -217,25 +213,6 @@ export class AccountComponent implements OnInit {
   }
 
 
-  // makes a transfer
-  makeTransfer(amount: number, accountId: any) {
-    const fromId = Number(this.accountId);
-    const toId = accountId;
-    const transfer = new Transfer(0, fromId, toId, amount);
- 
-    this.accountService.createTransfer(transfer).subscribe({
-      next: (res) => {
-        // do something with res
-       
-      },
-      error: (e) => {
-        alert(e.message);
-      },
-      complete: () => {      
-        this.getAccount();
-      }
-    });
-  }
 
 
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Account } from 'src/app/models/account';
 import { Transfer } from 'src/app/models/transfer';
@@ -16,6 +16,7 @@ export class RequestComponent implements OnInit {
   type: string = "out";
   accounts: Account[] = [];
   transferFromAcct: FormControl = new FormControl(['']);
+
 
   constructor(private accountService: AccountService, private requestService: RequestService) { }
 

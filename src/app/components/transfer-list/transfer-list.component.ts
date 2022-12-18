@@ -17,6 +17,7 @@ export class TransferListComponent {
   ngOnInit() {
     
     this.accountService.getTransfers().subscribe(res=> {
+
       this.transfers = res;
     })
 

@@ -23,6 +23,8 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
 import { MoneyPipe } from './pipes/moneypipe';
 import { TransferComponent } from './components/transfer/transfer.component';
 import { TransferListComponent } from './components/transfer-list/transfer-list.component';
+import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
+import { TransferFormComponent } from './components/transfer-form/transfer-form.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { TransferListComponent } from './components/transfer-list/transfer-list.
     UpdateProfileComponent,
     MoneyPipe,
     TransferComponent,
-    TransferListComponent
+    TransferListComponent,
+    TransactionFormComponent,
+    TransferFormComponent
   ],
   imports: [
     BrowserModule,

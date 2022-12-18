@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { outputAst } from '@angular/compiler';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
@@ -8,17 +10,40 @@ import { RequestService } from 'src/app/services/request.service';
 })
 export class RequestListComponent implements OnInit {
 
-  requests: any;
+  @Output() requests: any;
 
-  constructor(private requestService: RequestService) { }
+  expanded: boolean = false;
+
+  constructor(private requestService: RequestService,  private router: Router) { }
 
   @Input() mode: any = null;
 
-  ngOnInit(): void {
+
+  toggleExpand() {
+    this.expanded = !this.expanded;
+  }
+
+
+  onChanges() {
+    this.updateRequests();
+  }
+
+  public reload() {
+
+    // save current route first
+    const currentRoute = this.router.url;
+
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentRoute]); // navigate to same route
+    }); 
+}
+
+  public updateRequests() {
     if(this.mode == "out"){
       // get outgoing requests
       this.requestService.getOutgoing().subscribe(res=> {
         this.requests = res;
+        
       });
 
 
@@ -30,10 +55,30 @@ export class RequestListComponent implements OnInit {
         this.requests = res;
       });
 
+      this.ngOnInit();
 
 
 
     }
+  }
+
+  ngOnInit(): void {
+    if(this.mode == "out"){
+        // get outgoing requests
+        this.requestService.getOutgoing().subscribe(res=> {
+          this.requests = res;
+        });
+
+
+      }
+      else{
+
+        // get incoming requests
+        this.requestService.getIncoming().subscribe(res=> {
+          this.requests = res;
+        });
+
+      }
   }
 
 }

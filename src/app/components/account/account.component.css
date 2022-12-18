@@ -1,3 +1,8 @@
+.spacerline {
+    display: flex;
+    justify-content:space-around;
+}
+
 .home-wrap {
     width: 100%;
     height: auto;
