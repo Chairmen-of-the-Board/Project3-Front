@@ -40,29 +40,46 @@ export class RequestComponent implements OnInit {
       amount: this.request.amount
      };
 
-     this.accountService.createTransfer(outTransfer).subscribe({
-      next: (res) => {
-        // do something with res
-      },
-      error: (e) => {
-        alert(e.message);
-      },
-      complete: () => {      
-        this.request.status = "Approved";
-        this.requestService.upsertRequest(this.request).subscribe({
-          next: (res) =>{
-            // do something with res
-          },
-          error: (e) => {
-            alert(e.message);
-          },
-          complete: () => {
-            console.log("Approved");
-          }
-        });
-      }
-    });
+    let enoughMoney: boolean = false;
 
+     for (let i of this.accounts) {
+
+      if(i.id == this.transferFromAcct.value && i.balance >= outTransfer.amount) {
+          enoughMoney = true;
+          break;
+      }
+    }
+
+      if (enoughMoney) {
+
+      
+
+      this.accountService.createTransfer(outTransfer).subscribe({
+        next: (res) => {
+          // do something with res
+
+        },
+        error: (e) => {
+          alert(e.message);
+        },
+        complete: () => { 
+          this.request.status = "Approved";
+          this.requestService.upsertRequest(this.request).subscribe({
+            next: (res) =>{
+              // do something with res
+            },
+            error: (e) => {
+              alert(e.message);
+            },
+            complete: () => {
+              console.log("Approved");
+            }
+          });
+        }
+      });
+    } else {
+      alert("Not enough money.");
+    }
   }
 
   denyRequest(){
