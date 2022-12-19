@@ -67,10 +67,6 @@ body{
   
 }
 
-br{
-  color: var(--bkg-color);
-
-}
 
 html{
   background-color:var(--bkg-color);
