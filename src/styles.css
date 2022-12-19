@@ -50,6 +50,7 @@ h4 {
 }
 .home-wrap{
   background: var(--bkg-color);
+  height: 100vh;
 }
 .account-wrap{
   background: var(--bkg-color);
@@ -61,17 +62,29 @@ h4 {
 
 
 }
-body, html{
+body{
     background: var(--bkg-color);
+  
 }
 
+br{
+  color: var(--bkg-color);
+
+}
+
+html{
+  background-color:var(--bkg-color);
+  
+}
 form{
   background: var(--bkg-color);
 }
 
 div.container-fluid{
-  --bkg-color: rgb(250, 248, 248);
-
+  background-color: var(--bkg-color);
+}
+div.container-fluid.dark-theme{
+  background-color: var(--bkg-color);
 }
 
 h1,h2,
