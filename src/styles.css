@@ -61,7 +61,7 @@ h4 {
 
 
 }
-body{
+body, html{
     background: var(--bkg-color);
 }
 
