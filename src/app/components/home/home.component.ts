@@ -53,7 +53,11 @@ export class HomeComponent implements OnInit {
       //  this.accountService.accountId = ''+this.userAccount.id;
       //  localStorage.setItem('current-account', ''+this.userAccount.id);
       }
+      
   });
+  if (localStorage.getItem('dark-theme') == 'true') {
+    document.body.classList.toggle('dark-theme');
+  }
 
 
 

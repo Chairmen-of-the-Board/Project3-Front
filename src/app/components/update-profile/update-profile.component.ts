@@ -44,6 +44,9 @@ export class UpdateProfileComponent implements OnInit {
           this.address.setValue(res.address);
           this.phone.setValue(res.phone);
       });
+      if (localStorage.getItem('dark-theme') == 'true') {
+        document.body.classList.toggle('dark-theme');
+      }
   }
 
   changeField() {

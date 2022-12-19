@@ -108,6 +108,9 @@ export class AccountComponent implements OnInit {
 
     // for transfers, get all accounts
     this.getAllAccounts();
+    if (localStorage.getItem('dark-theme') == 'true') {
+      document.body.classList.toggle('dark-theme');
+    }
 
   }
 
