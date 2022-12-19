@@ -33,7 +33,7 @@
       <!-- Navigation Content (tab-dependent) -->
         <ng-container #requestsSection *ngIf="currentNavSection == 'requests';else transactionsSection">
           <div class="spacerline">
-            <h2>Requests :</h2>
+            <h2>Requests:</h2>
             <button class="btn btn-lg btn-outline-primary" (click)="openModal(requestModal)">&plus; Request</button>
           </div>
           <app-request-list [mode]="'out'" #requestlist></app-request-list>          
@@ -54,7 +54,7 @@
         </ng-template>
         <ng-template #transfersSection>
           <div class="spacerline">
-            <h2>Transfers</h2>
+            <h2>Transfers:</h2>
             <button class="btn btn-lg btn-outline-primary" (click)="openModal(transferModal)">&plus; Transfer</button>
           </div>
           <app-transfer-list></app-transfer-list>

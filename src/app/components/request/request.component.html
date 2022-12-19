@@ -3,6 +3,7 @@
     <p>Requesting Account: {{request.requestAccId}}</p>
     <p>Request Recipient: {{request.targetId}}</p>
     <p>Description: {{request.description}}</p>
+    <p>Time Sent: {{request.creationDate}}</p>
     <p>Status: {{request.status}}</p>
     <div class="input-group mb-3" *ngIf="type == 'in' && request.status == 'Pending'">    
       <select class="form-select" [formControl]="transferFromAcct" aria-label="Default select example" style="width: 30px;">
