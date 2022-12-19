@@ -83,6 +83,14 @@ div.container-fluid.dark-theme{
   background-color: var(--bkg-color);
 }
 
+.navbar {
+  background-color: var(--bkg-color);
+}
+
+.navbar.dark-theme {
+  background-color: var(--bkg-color);
+}
+
 h1,h2,
 p {
     color: var(--text-color);
