@@ -22,6 +22,7 @@ export class RequestFormComponent implements OnInit {
   request: UserRequest = {
     id: 0,
     requestAccId: parseInt(this.accountId),
+    targetId: '',
     targetEmail: '',
     amount: 0,
     description: '',
@@ -43,24 +44,18 @@ export class RequestFormComponent implements OnInit {
     this.request.targetEmail = targetEmail;
     this.request.description = description;
 
-    alert(this.request.amount + '\n' +
-    this.request.targetEmail + '\n' +
-    this.request.description );
 
-          this.requestService.upsertRequest(this.request).subscribe({
-            next: (response) => {
-              alert(response.amount + '\n' +
-              response.targetEmail + '\n' +
-              response.description );
-            },
-            error: (err) => {
-              alert('error\n' + err.message);
-            },
-            complete: () => {
-              alert('complete');
-              this.submit.emit();
-            }
-          });
+    this.requestService.upsertRequest(this.request).subscribe({
+      next: (response) => {
+        //next
+      },
+      error: (err) => {
+        alert('error\n' + err.message);
+      },
+      complete: () => {
+        this.submit.emit();
       }
+    });
+  }
 
 }

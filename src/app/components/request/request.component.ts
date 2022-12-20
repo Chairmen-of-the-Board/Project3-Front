@@ -2,8 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Account } from 'src/app/models/account';
 import { Transfer } from 'src/app/models/transfer';
+import { UserRequest } from 'src/app/models/userrequest';
 import { AccountService } from 'src/app/services/account.service';
 import { RequestService } from 'src/app/services/request.service';
+
 
 @Component({
   selector: 'app-request',
@@ -12,7 +14,7 @@ import { RequestService } from 'src/app/services/request.service';
 })
 export class RequestComponent implements OnInit {
 
-  @Input() request: any = null;
+  @Input() request!: UserRequest;
   type: string = "out";
   accounts: Account[] = [];
   transferFromAcct: FormControl = new FormControl(['']);
@@ -73,13 +75,13 @@ export class RequestComponent implements OnInit {
               alert(e.message);
             },
             complete: () => {
-              console.log("Approved");
+              // complete
             }
           });
         }
       });
     } else {
-      alert("Not enough money.");
+      alert("Insufficient funds.");
     }
   }
 
