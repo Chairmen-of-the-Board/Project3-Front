@@ -17,6 +17,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RequestListComponent } from '../request-list/request-list.component';
 import { TransferListComponent } from '../transfer-list/transfer-list.component';
+import { UserRequest } from 'src/app/models/userrequest';
 
 @Component({
   selector: 'app-account',
@@ -28,9 +29,8 @@ export class AccountComponent implements OnInit {
   // navigation
   currentNavSection: string = 'transactions';
 
-  //request list child reference
-  @ViewChild('requestlist') requestList!: RequestListComponent;
-  @ViewChild('transferlist') transferList!: TransferListComponent; 
+  // @ViewChild('requestlist') requestList!: RequestListComponent;
+
 
 
   accountId: string = '';
@@ -48,6 +48,8 @@ export class AccountComponent implements OnInit {
   balanceStyle = {};
 
   @Output() transactions: Transaction[] = [];
+  @Output() transfers: Transfer[] = [];
+  @Output() requests: UserRequest[] = [];
 
   accounts: Account[] = [];
 
@@ -63,15 +65,16 @@ export class AccountComponent implements OnInit {
       if (result.includes('Submitted')) {        
         
         if (result.includes('Request')) {
-          setTimeout(() => this.requestList.updateRequests(),400);
+           setTimeout(() => this.getAllRequests(),400);
           
         }
         if (result.includes('Transfer')) {
-          this.transferList.onChanges();
-          setTimeout(() => this.transferList.updateTransfers(),400);
+        //  alert('hit submit transfer button');
+          // setTimeout(() => this.transferList.ngOnInit(),400);
         }
 
-        setTimeout(() => this.ngOnInit(),400);       
+        setTimeout(() => this.ngOnInit(),800);       
+       // this.ngOnInit();
          
       }
 
@@ -92,7 +95,7 @@ export class AccountComponent implements OnInit {
 
 
 
-  constructor(private accountService: AccountService, private modalService: NgbModal) { 
+  constructor(private accountService: AccountService, private modalService: NgbModal, private requestService : RequestService) { 
     // this.accountId = accountService.accountId;
     // added below line because it's more dependable than calling accountservice.accountid
     this.accountId = localStorage.getItem('current-account') || '';
@@ -100,11 +103,11 @@ export class AccountComponent implements OnInit {
   }
 
 
-
-
   ngOnInit(): void {
     this.getAccount();
     this.getAllTransactions();
+    this.getAllTransfers();
+    this.getAllRequests();
 
     // for transfers, get all accounts
     this.getAllAccounts();
@@ -134,12 +137,15 @@ export class AccountComponent implements OnInit {
     switch(section) {
       case 'requests':
         navlinkRequests.setAttribute('class', 'nav-link active');
+        this.getAllRequests();
         break;
       case 'transactions':
         navlinkTransactions.setAttribute('class', 'nav-link active');
+        this.getAllTransactions();
         break;
       case 'transfers':
         navlinkTransfers.setAttribute('class', 'nav-link active');
+        this.getAllTransfers();
         break;
       default:
         //do default
@@ -147,7 +153,37 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  getAllRequests() {
+    this.requestService.getOutgoing().subscribe({
+      next: (resp) => {
+        this.requests = resp;
+      },
+      error: () => {
+       // alert('No requests were retrieved...');
+      },
+      complete: () => {
+        // alert('Requests were retrieved!');
+        
+      }
+    }
+    );
+  }
 
+  getAllTransfers() {
+    this.accountService.getTransfers().subscribe({
+      next: (resp) => {
+        this.transfers = resp;
+      },
+      error: () => {
+       // alert('No transfers were retrieved...');
+      },
+      complete: () => {
+        // alert('Transfers were retrieved!');
+        
+      }
+    }
+    );
+  }
 
   getAllTransactions() {
     this.accountService.getTransactions(this.accountId).subscribe({

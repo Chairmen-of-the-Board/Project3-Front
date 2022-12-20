@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Transfer } from 'src/app/models/transfer';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -10,27 +10,17 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class TransferListComponent {
 
-  transfers: Transfer[] = [];
+ @Input() transfers: Transfer[] = [];
 
   constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    this.accountService.getTransfers().subscribe(res=> {
+    // this.accountService.getTransfers().subscribe(res=> {
 
-      this.transfers = res;
-    })
+    //   this.transfers = res;
+    // })
   }
 
-  onChanges() {
-    this.updateTransfers();
-  }
 
-  public updateTransfers() {
-    this.accountService.getTransfers().subscribe(res=> {
-
-      this.transfers = res;
-    })
-    this.ngOnInit();
-  }
 
 }

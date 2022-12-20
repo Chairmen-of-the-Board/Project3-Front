@@ -29,7 +29,7 @@ export class RequestFormComponent implements OnInit {
     status: 'Pending',
     creationDate: null
   };
-
+  
   constructor(private requestService: RequestService) { }
 
 
@@ -50,7 +50,8 @@ export class RequestFormComponent implements OnInit {
         //next
       },
       error: (err) => {
-        alert('error\n' + err.message);
+
+        alert(err.error.message);
       },
       complete: () => {
         this.submit.emit();

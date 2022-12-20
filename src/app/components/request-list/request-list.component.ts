@@ -14,6 +14,8 @@ export class RequestListComponent implements OnInit {
 
   expanded: boolean = false;
 
+  @Output() update: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private requestService: RequestService) { }
 
   @Input() mode: any = null;
@@ -21,6 +23,10 @@ export class RequestListComponent implements OnInit {
 
   toggleExpand() {
     this.expanded = !this.expanded;
+  }
+
+  Update() {
+    this.update.emit();
   }
 
 

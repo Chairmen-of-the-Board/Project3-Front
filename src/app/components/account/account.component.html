@@ -35,7 +35,10 @@
             <h2>Requests:</h2>
             <button class="btn btn-lg btn-outline-primary" (click)="openModal(requestModal)">&plus; Request</button>
           </div>
-          <app-request-list [mode]="'out'" #requestlist></app-request-list>          
+          <!-- <app-request-list [mode]="'out'" #requestlist></app-request-list>         -->
+          <ul *ngFor="let i of requests">
+            <app-request [request]="i"></app-request>
+          </ul>
         </ng-container>
         <ng-template #transactionsSection>
           <ng-container *ngIf="currentNavSection == 'transactions';else transfersSection">
@@ -56,7 +59,10 @@
             <h2>Transfers:</h2>
             <button class="btn btn-lg btn-outline-primary" (click)="openModal(transferModal)">&plus; Transfer</button>
           </div>
-          <app-transfer-list></app-transfer-list>
+          <div *ngFor="let t of transfers">
+            <app-transfer [transfer]="t"></app-transfer>
+          </div>
+         <!-- <app-transfer-list [transfers]="transfers"></app-transfer-list> -->
           
         </ng-template>
         <hr>        
