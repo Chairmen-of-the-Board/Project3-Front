@@ -95,6 +95,12 @@ h1,h2,
 p {
     color: var(--text-color);
 }
+.try {
+  color: var(--text-color);
+}
+.try.dark-theme {
+  color: var(--text-color);
+}
 
 button {
     padding: 10px;
