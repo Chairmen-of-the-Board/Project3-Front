@@ -15,12 +15,22 @@ export class TransferListComponent {
   constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    
     this.accountService.getTransfers().subscribe(res=> {
 
       this.transfers = res;
     })
+  }
 
+  onChanges() {
+    this.updateTransfers();
+  }
+
+  public updateTransfers() {
+    this.accountService.getTransfers().subscribe(res=> {
+
+      this.transfers = res;
+    })
+    this.ngOnInit();
   }
 
 }

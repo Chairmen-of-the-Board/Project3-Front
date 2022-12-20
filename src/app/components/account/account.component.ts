@@ -16,6 +16,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RequestListComponent } from '../request-list/request-list.component';
+import { TransferListComponent } from '../transfer-list/transfer-list.component';
 
 @Component({
   selector: 'app-account',
@@ -28,7 +29,8 @@ export class AccountComponent implements OnInit {
   currentNavSection: string = 'transactions';
 
   //request list child reference
-  @ViewChild('requestlist') requestList!: RequestListComponent; 
+  @ViewChild('requestlist') requestList!: RequestListComponent;
+  @ViewChild('transferlist') transferList!: TransferListComponent; 
 
 
   accountId: string = '';
@@ -47,10 +49,6 @@ export class AccountComponent implements OnInit {
 
   @Output() transactions: Transaction[] = [];
 
-
-  transferFormOpen: boolean = false;
-  requestFormOpen: boolean = false;
-
   accounts: Account[] = [];
 
   //modal vars
@@ -68,10 +66,12 @@ export class AccountComponent implements OnInit {
           setTimeout(() => this.requestList.updateRequests(),400);
           
         }
+        if (result.includes('Transfer')) {
+          this.transferList.onChanges();
+          setTimeout(() => this.transferList.updateTransfers(),400);
+        }
 
-        setTimeout(() => this.ngOnInit(),400);
-
-       
+        setTimeout(() => this.ngOnInit(),400);       
          
       }
 
@@ -116,7 +116,7 @@ export class AccountComponent implements OnInit {
     } else {
       document.body.classList.toggle('dark-theme', false);
     }
-    
+
   }
 
   navToAccountSection(section: string) {
@@ -147,14 +147,6 @@ export class AccountComponent implements OnInit {
     }
   }
 
-
-  openCreateForm() {
-    this.createFormOpen = true;
-  }
-
-  openRequestForm() {
-    this.requestFormOpen = true;
-  }
 
 
   getAllTransactions() {
@@ -215,14 +207,6 @@ export class AccountComponent implements OnInit {
   }
 
   // transfer stuff
-  
-  openTransferForm() {
-    this.transferFormOpen = true;
-  }
-
-
-
-
 
   getAllAccounts() {
     this.accountService.getAllAccounts().subscribe({

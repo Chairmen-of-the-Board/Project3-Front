@@ -10,11 +10,11 @@ import { RequestService } from 'src/app/services/request.service';
 })
 export class RequestListComponent implements OnInit {
 
-  @Output() requests: any;
+  requests: any;
 
   expanded: boolean = false;
 
-  constructor(private requestService: RequestService,  private router: Router) { }
+  constructor(private requestService: RequestService) { }
 
   @Input() mode: any = null;
 
@@ -27,16 +27,6 @@ export class RequestListComponent implements OnInit {
   onChanges() {
     this.updateRequests();
   }
-
-  public reload() {
-
-    // save current route first
-    const currentRoute = this.router.url;
-
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate([currentRoute]); // navigate to same route
-    }); 
-}
 
   public updateRequests() {
     if(this.mode == "out"){

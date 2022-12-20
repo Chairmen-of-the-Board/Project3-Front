@@ -69,7 +69,7 @@
 <!-- Request Modal -->
   <ng-template #requestModal let-modal>  
     <div class="modal-header">  
-      <h4 class="modal-title" id="modal-basic-title">Create Request</h4>  
+      <h4 class="modal-title" id="modal-basic-title">Request Money</h4>  
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">  
         <span aria-hidden="true">×</span>  
       </button>  
@@ -104,7 +104,7 @@
     <div class="modal-body">
 
       <h5>Transfer Money To One of Your Other Accounts:</h5><br>
-      <app-transfer-form [accounts]="accounts" (submit)="modal.close('Submitted')"></app-transfer-form><br>
+      <app-transfer-form [accounts]="accounts" (submit)="modal.close('TransferSubmitted')"></app-transfer-form><br>
       <h6 align="center">-- <b><i>OR</i></b> --</h6>
       <h5>Send Money To Someone Else:</h5><br>
       <send (submit)="modal.close('Submitted')"></send><br>
