@@ -77,9 +77,6 @@
     <div class="modal-body">     
       <app-request-form (submit)="modal.close('SubmittedRequest')"></app-request-form>  
     </div>  
-    <div class="modal-footer">  
-    <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
-    </div>  
   </ng-template>
 
   <!-- Transaction Modal -->
@@ -93,9 +90,7 @@
     <div class="modal-body">
       <app-transaction-form (submit)="modal.close('Submitted')"></app-transaction-form>
     </div>
-    <div class="modal-footer">
-    <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
-    </div>
+
   </ng-template>
 
   <!-- Transfer Modal -->
@@ -114,8 +109,5 @@
       <h5>Send Money To Someone Else:</h5><br>
       <send (submit)="modal.close('Submitted')"></send><br>
 
-    </div>
-    <div class="modal-footer">
-      <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
     </div>
   </ng-template>

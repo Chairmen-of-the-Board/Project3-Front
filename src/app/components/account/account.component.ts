@@ -108,10 +108,15 @@ export class AccountComponent implements OnInit {
 
     // for transfers, get all accounts
     this.getAllAccounts();
-    if (localStorage.getItem('dark-theme') == 'true') {
-      document.body.classList.toggle('dark-theme');
-    }
 
+    
+      // SET DARK MODE
+    if (localStorage.getItem('dark-theme')) {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
+    }
+    
   }
 
   navToAccountSection(section: string) {

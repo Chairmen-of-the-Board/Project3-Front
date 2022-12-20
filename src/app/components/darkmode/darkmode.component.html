@@ -1,2 +1,3 @@
-<button (click)="toggleDarkTheme()">Dark mode</button>
+<button *ngIf="isDark" (click)="toggleDarkTheme()"><i class="bi bi-moon"></i></button>
+<button *ngIf="!isDark" (click)="toggleDarkTheme()"><i class="bi bi-sun"></i></button>
 

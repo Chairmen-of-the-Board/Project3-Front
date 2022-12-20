@@ -57,11 +57,7 @@ h4 {
   box-shadow: var(--box-shadow);
 
 }
-.account-wrap.dark-theme{
-  box-shadow: var(--box-shadow);
 
-
-}
 body{
     background: var(--bkg-color);
   
@@ -79,17 +75,17 @@ form{
 div.container-fluid{
   background-color: var(--bkg-color);
 }
-div.container-fluid.dark-theme{
-  background-color: var(--bkg-color);
-}
+
 
 .navbar {
   background-color: var(--bkg-color);
 }
 
-.navbar.dark-theme {
+.modal-header,.modal-title,.modal-body {
   background-color: var(--bkg-color);
+  color: var(--text-color);
 }
+
 
 h1,h2,
 p {

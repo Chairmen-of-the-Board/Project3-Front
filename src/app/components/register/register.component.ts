@@ -32,8 +32,11 @@ export class RegisterComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('dark-theme') == 'true') {
-      document.body.classList.toggle('dark-theme');
+    // SET DARK MODE
+    if (localStorage.getItem('dark-theme')) {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
     }
   }
 
