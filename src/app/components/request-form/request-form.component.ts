@@ -22,7 +22,7 @@ export class RequestFormComponent implements OnInit {
   request: UserRequest = {
     id: 0,
     requestAccId: parseInt(this.accountId),
-    targetId: 0,
+    targetEmail: '',
     amount: 0,
     description: '',
     status: 'Pending',
@@ -36,41 +36,31 @@ export class RequestFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    alert('requestform component');
-     this.requestService.getUserByEmail('hikalamu@revature.com').subscribe(res=> {
-        alert(res.firstname +'\n' + res.lastname);
-      });
-      
   }
 
   async attemptUpsert(amount: number, targetEmail: string, description: string){
     this.request.amount = amount;
+    this.request.targetEmail = targetEmail;
     this.request.description = description;
-    
-    const ret = await this.requestService.getUserByEmail(this.targetEmail.getRawValue()).subscribe({
-      next: (resp) => {
-        this.request.id = resp.id;
-      },
-      error: () => {
-        alert('No such account exists');
-      },
-      complete: () => {
-        //complete
+
+    alert(this.request.amount + '\n' +
+    this.request.targetEmail + '\n' +
+    this.request.description );
 
           this.requestService.upsertRequest(this.request).subscribe({
             next: (response) => {
+              alert(response.amount + '\n' +
+              response.targetEmail + '\n' +
+              response.description );
             },
             error: (err) => {
-
+              alert('error\n' + err.message);
             },
             complete: () => {
+              alert('complete');
               this.submit.emit();
             }
           });
       }
-    });
-
-  
-  }
 
 }

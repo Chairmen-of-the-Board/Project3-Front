@@ -19,11 +19,6 @@ export class RequestService {
   constructor(private http: HttpClient) { }
 
 
-  getUserByEmail(email : string): Observable<User> {
-    return this.http.get<User>(this.requestUrl+'/user/'+email,  {headers: environment.headers, withCredentials: environment.withCredentials});
-  }
-
-
   getIncoming(): Observable<UserRequest[]>{
     this.userId = localStorage.getItem('current-user') || '';
     return this.http.get<UserRequest[]>(this.requestUrl+`/${this.userId}/incoming`, {headers: environment.headers, withCredentials: environment.withCredentials});
