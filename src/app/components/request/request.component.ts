@@ -19,6 +19,7 @@ export class RequestComponent implements OnInit {
   accounts: Account[] = [];
   transferFromAcct: FormControl = new FormControl(['']);
 
+  @Output() update : EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private accountService: AccountService, private requestService: RequestService) { }
 
@@ -75,7 +76,8 @@ export class RequestComponent implements OnInit {
               alert(e.message);
             },
             complete: () => {
-              // complete
+              // let parent know it was updated
+              this.update.emit();
             }
           });
         }
@@ -98,7 +100,8 @@ export class RequestComponent implements OnInit {
             alert(e.message);
           },
           complete: () => {
-            console.log("Denied");
+              // let parent know it was updated
+              this.update.emit();
           }
         });
   }
