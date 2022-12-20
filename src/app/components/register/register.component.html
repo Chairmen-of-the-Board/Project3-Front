@@ -38,7 +38,8 @@
                   <input pattern="[0-9]*" type="phone" class="form-control" [formControl]="phone" minlength="10" id="validationDefaultPhone" placeholder="Phone Number"  aria-describedby="inputGroupPrepend2" required>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" style="display: flex; justify-content:space-around">
+              <button class="btn btn-lg btn-secondary" routerLink="/login"><i class="bi bi-arrow-90deg-up"></i></button>
               <button class="btn btn-success btn-lg" type="submit" (click)="attemptRegister(email.value, password.value, firstname.value, lastname.value, address.value, phone.value);" [disabled]= "email.invalid || password.invalid || firstname.invalid || firstname.invalid || lastname.invalid || address.invalid || phone.invalid">Register</button>
             </div>
           </div>
