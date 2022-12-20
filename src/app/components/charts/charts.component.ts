@@ -29,7 +29,14 @@ export class ChartsComponent implements OnInit {
   async ngOnInit() {
 
     this.getAllTransactions();
-      
+
+      // SET DARK MODE
+    if (localStorage.getItem('dark-theme')) {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
+    }
+        
   }
 
   

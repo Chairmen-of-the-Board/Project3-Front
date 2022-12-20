@@ -26,6 +26,7 @@ export class RequestComponent implements OnInit {
     }
     this.getAllAccounts();
     this.transferFromAcct.setValue(0);
+    
   }
 
 
