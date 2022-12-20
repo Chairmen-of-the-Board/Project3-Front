@@ -1,5 +1,8 @@
+import { JsonPipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+import { User } from 'src/app/models/user';
 import { UserRequest } from 'src/app/models/userrequest';
 import { RequestService } from 'src/app/services/request.service';
 
@@ -14,7 +17,7 @@ export class RequestFormComponent implements OnInit {
 
   amount: FormControl = new FormControl(['']);
   description: FormControl = new FormControl(['']);
-  targetId: FormControl = new FormControl(['']);
+  targetEmail: FormControl = new FormControl(['']);
   accountId = localStorage.getItem('current-account') || '';
   request: UserRequest = {
     id: 0,
@@ -28,24 +31,46 @@ export class RequestFormComponent implements OnInit {
 
   constructor(private requestService: RequestService) { }
 
+
+
+
   ngOnInit(): void {
 
+    alert('requestform component');
+     this.requestService.getUserByEmail('hikalamu@revature.com').subscribe(res=> {
+        alert(res.firstname +'\n' + res.lastname);
+      });
+      
   }
 
-  attemptUpsert(amount: number, targetId: number, description: string){
+  async attemptUpsert(amount: number, targetEmail: string, description: string){
     this.request.amount = amount;
-    this.request.targetId = targetId;
     this.request.description = description;
-    this.requestService.upsertRequest(this.request).subscribe({
-      next: (response) => {
+    
+    const ret = await this.requestService.getUserByEmail(this.targetEmail.getRawValue()).subscribe({
+      next: (resp) => {
+        this.request.id = resp.id;
       },
-      error: (err) => {
-
+      error: () => {
+        alert('No such account exists');
       },
       complete: () => {
-        this.submit.emit();
+        //complete
+
+          this.requestService.upsertRequest(this.request).subscribe({
+            next: (response) => {
+            },
+            error: (err) => {
+
+            },
+            complete: () => {
+              this.submit.emit();
+            }
+          });
       }
     });
+
+  
   }
 
 }

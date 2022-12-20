@@ -7,7 +7,7 @@
         </div>
         <div class="input-group mb-3">
             <div class="input-group">
-                <input type="text" class="form-control" [formControl]="targetId" placeholder="User to Request">
+                <input type="text" class="form-control" [formControl]="targetEmail" placeholder="User to Request">
             </div>
         </div>
         <div class="input-group mb-3">
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="col-12">
-            <button class="btn btn-success btn-lg" type="submit" (click)="attemptUpsert(amount.value,targetId.value,description.value)">Submit</button>
+            <button class="btn btn-success btn-lg" type="submit" (click)="attemptUpsert(amount.value, targetEmail.value, description.value)">Submit</button>
         </div>
     </form>
 </div>
