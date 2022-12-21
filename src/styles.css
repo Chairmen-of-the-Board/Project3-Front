@@ -125,7 +125,7 @@ h1 {
     1px 1px 0 maroon;
 }
 
-h2, p {
+h2, h6, p {
     color: var(--text-color);
 }
 .try {
