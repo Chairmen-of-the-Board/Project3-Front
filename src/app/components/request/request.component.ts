@@ -2,8 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Account } from 'src/app/models/account';
 import { Transfer } from 'src/app/models/transfer';
+import { UserRequest } from 'src/app/models/userrequest';
 import { AccountService } from 'src/app/services/account.service';
 import { RequestService } from 'src/app/services/request.service';
+
 
 @Component({
   selector: 'app-request',
@@ -12,11 +14,12 @@ import { RequestService } from 'src/app/services/request.service';
 })
 export class RequestComponent implements OnInit {
 
-  @Input() request: any = null;
+  @Input() request!: UserRequest;
   type: string = "out";
   accounts: Account[] = [];
   transferFromAcct: FormControl = new FormControl(['']);
 
+  @Output() update : EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private accountService: AccountService, private requestService: RequestService) { }
 
@@ -26,6 +29,7 @@ export class RequestComponent implements OnInit {
     }
     this.getAllAccounts();
     this.transferFromAcct.setValue(0);
+    
   }
 
 
@@ -40,29 +44,47 @@ export class RequestComponent implements OnInit {
       amount: this.request.amount
      };
 
-     this.accountService.createTransfer(outTransfer).subscribe({
-      next: (res) => {
-        // do something with res
-      },
-      error: (e) => {
-        alert(e.message);
-      },
-      complete: () => {      
-        this.request.status = "Approved";
-        this.requestService.upsertRequest(this.request).subscribe({
-          next: (res) =>{
-            // do something with res
-          },
-          error: (e) => {
-            alert(e.message);
-          },
-          complete: () => {
-            console.log("Approved");
-          }
-        });
-      }
-    });
+    let enoughMoney: boolean = false;
 
+     for (let i of this.accounts) {
+
+      if(i.id == this.transferFromAcct.value && i.balance >= outTransfer.amount) {
+          enoughMoney = true;
+          break;
+      }
+    }
+
+      if (enoughMoney) {
+
+      
+
+      this.accountService.createTransfer(outTransfer).subscribe({
+        next: (res) => {
+          // do something with res
+
+        },
+        error: (e) => {
+          alert(e.message);
+        },
+        complete: () => { 
+          this.request.status = "Approved";
+          this.requestService.upsertRequest(this.request).subscribe({
+            next: (res) =>{
+              // do something with res
+            },
+            error: (e) => {
+              alert(e.message);
+            },
+            complete: () => {
+              // let parent know it was updated
+              this.update.emit();
+            }
+          });
+        }
+      });
+    } else {
+      alert("Insufficient funds.");
+    }
   }
 
   denyRequest(){
@@ -78,7 +100,8 @@ export class RequestComponent implements OnInit {
             alert(e.message);
           },
           complete: () => {
-            console.log("Denied");
+              // let parent know it was updated
+              this.update.emit();
           }
         });
   }

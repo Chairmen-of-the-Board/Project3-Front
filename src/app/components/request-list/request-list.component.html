@@ -7,6 +7,6 @@
 
 <div *ngIf="expanded || mode == 'out'">
 <ul *ngFor="let i of requests">
-    <app-request [request]="i"></app-request>
+    <app-request (update)="Update()" [request]="i"></app-request>
 </ul>
 </div>

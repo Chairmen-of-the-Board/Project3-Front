@@ -44,19 +44,16 @@ export class HomeComponent implements OnInit {
         } else {
            this.accountMessage = "No accounts were found in the database." 
         }
-        
-      //  const num = this.userAccount.balance;
-      //  this.userAccount.balance = +num.toFixed(2);
-      //  this.accountName.setValue(this.userAccount.name);
-      //  this.balance.setValue(this.userAccount.balance);
-      //  this.accountDescription.setValue(this.userAccount.description);
-      //  this.accountService.accountId = ''+this.userAccount.id;
-      //  localStorage.setItem('current-account', ''+this.userAccount.id);
+
       }
       
   });
-  if (localStorage.getItem('dark-theme') == 'true') {
-    document.body.classList.toggle('dark-theme');
+
+  // SET DARK MODE
+  if (localStorage.getItem('dark-theme')) {
+    document.body.classList.toggle('dark-theme', true);
+  } else {
+    document.body.classList.toggle('dark-theme', false);
   }
 
 
@@ -93,6 +90,10 @@ export class HomeComponent implements OnInit {
 
   openCreateForm() {
     this.createFormOpen = true;
+    this.accountName.setValue('');
+    this.balance.setValue('');
+    this.accountDescription.setValue('');
+
   }
 
   // click account details button
@@ -122,8 +123,6 @@ export class HomeComponent implements OnInit {
         this.accountExists = true;
         this.createFormOpen = false;
         this.accountMessage = 'Account was saved!';
-        this.accountService.accountId = ''+ createdAccount.id;
-        localStorage.setItem('current-account', ''+ createdAccount.id);
         this.ngOnInit();
       }
     })

@@ -16,6 +16,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RequestListComponent } from '../request-list/request-list.component';
+import { TransferListComponent } from '../transfer-list/transfer-list.component';
+import { UserRequest } from 'src/app/models/userrequest';
+import { ChartsComponent } from '../charts/charts.component';
 
 @Component({
   selector: 'app-account',
@@ -27,9 +30,10 @@ export class AccountComponent implements OnInit {
   // navigation
   currentNavSection: string = 'transactions';
 
-  //request list child reference
-  @ViewChild('requestlist') requestList!: RequestListComponent; 
+   @ViewChild('app-chart') appchart!: ChartsComponent;
+   chartExpanded: boolean = false;
 
+  txnType: FormControl = new FormControl(['']);
 
   accountId: string = '';
   userAccount!: Account;
@@ -46,10 +50,8 @@ export class AccountComponent implements OnInit {
   balanceStyle = {};
 
   @Output() transactions: Transaction[] = [];
-
-
-  transferFormOpen: boolean = false;
-  requestFormOpen: boolean = false;
+  @Output() transfers: Transfer[] = [];
+  @Output() requests: UserRequest[] = [];
 
   accounts: Account[] = [];
 
@@ -58,20 +60,23 @@ export class AccountComponent implements OnInit {
 
   // open modal
   openModal(content:any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg'}).result.then((result) => {
       this.modalCloseResult = `Closed with: ${result}`;
 
       // if the form is submitted in the modal body, refresh the account in view (wait 400ms for transfer)
       if (result.includes('Submitted')) {        
         
         if (result.includes('Request')) {
-          setTimeout(() => this.requestList.updateRequests(),400);
+           setTimeout(() => this.getAllRequests(),400);
           
         }
+        if (result.includes('Transfer')) {
+        //  alert('hit submit transfer button');
+          // setTimeout(() => this.transferList.ngOnInit(),400);
+        }
 
-        setTimeout(() => this.ngOnInit(),400);
-
-       
+        setTimeout(() => this.ngOnInit(),800);       
+       // this.ngOnInit();
          
       }
 
@@ -92,7 +97,7 @@ export class AccountComponent implements OnInit {
 
 
 
-  constructor(private accountService: AccountService, private modalService: NgbModal) { 
+  constructor(private accountService: AccountService, private modalService: NgbModal, private requestService : RequestService) { 
     // this.accountId = accountService.accountId;
     // added below line because it's more dependable than calling accountservice.accountid
     this.accountId = localStorage.getItem('current-account') || '';
@@ -101,18 +106,36 @@ export class AccountComponent implements OnInit {
 
 
 
+  changeTxnType() {
+    this.chartExpanded = false;
+    this.appchart.type = this.txnType.getRawValue();
+  }
+  toggleExpandChart() {
+    this.chartExpanded = ! this.chartExpanded;
+  }
 
   ngOnInit(): void {
     this.getAccount();
     this.getAllTransactions();
+    this.getAllTransfers();
+    this.getAllRequests();
 
     // for transfers, get all accounts
     this.getAllAccounts();
-    if (localStorage.getItem('dark-theme') == 'true') {
-      document.body.classList.toggle('dark-theme');
+
+    
+      // SET DARK MODE
+    if (localStorage.getItem('dark-theme')) {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
     }
 
+    this.txnType.setValue('All');
+
+
   }
+
 
   navToAccountSection(section: string) {
     
@@ -129,12 +152,15 @@ export class AccountComponent implements OnInit {
     switch(section) {
       case 'requests':
         navlinkRequests.setAttribute('class', 'nav-link active');
+        this.getAllRequests();
         break;
       case 'transactions':
         navlinkTransactions.setAttribute('class', 'nav-link active');
+        this.getAllTransactions();
         break;
       case 'transfers':
         navlinkTransfers.setAttribute('class', 'nav-link active');
+        this.getAllTransfers();
         break;
       default:
         //do default
@@ -142,15 +168,37 @@ export class AccountComponent implements OnInit {
     }
   }
 
-
-  openCreateForm() {
-    this.createFormOpen = true;
+  getAllRequests() {
+    this.requestService.getOutgoing().subscribe({
+      next: (resp) => {
+        this.requests = resp;
+      },
+      error: () => {
+       // alert('No requests were retrieved...');
+      },
+      complete: () => {
+        // alert('Requests were retrieved!');
+        
+      }
+    }
+    );
   }
 
-  openRequestForm() {
-    this.requestFormOpen = true;
+  getAllTransfers() {
+    this.accountService.getTransfers().subscribe({
+      next: (resp) => {
+        this.transfers = resp;
+      },
+      error: () => {
+       // alert('No transfers were retrieved...');
+      },
+      complete: () => {
+        // alert('Transfers were retrieved!');
+        
+      }
+    }
+    );
   }
-
 
   getAllTransactions() {
     this.accountService.getTransactions(this.accountId).subscribe({
@@ -210,14 +258,6 @@ export class AccountComponent implements OnInit {
   }
 
   // transfer stuff
-  
-  openTransferForm() {
-    this.transferFormOpen = true;
-  }
-
-
-
-
 
   getAllAccounts() {
     this.accountService.getAllAccounts().subscribe({

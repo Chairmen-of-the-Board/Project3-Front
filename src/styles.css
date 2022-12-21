@@ -5,7 +5,15 @@
 
 body {
     --text-color: #222;
-    --bkg-color: rgb(250, 248, 248);
+
+    --secondary-color: rgb(216, 216, 216);
+    --tertiary-color: rgb(226, 221, 221);
+    --warning-color: rgb(255, 180, 180);
+
+    --bkg-color: rgb(246,242,195);
+    --wrap-color: rgb(249, 249, 249);
+    --card-color: rgb(239, 232, 160);
+
     --box-shadow: 0 15px 25px rgb(43, 42, 42);
     --btn-txt-color: white;
     --btn-bg-color: rgb(11, 88, 160);
@@ -13,7 +21,15 @@ body {
   }
   body.dark-theme {
     --text-color: #eee;
+
+    --secondary-color: rgb(80, 80, 80);
+    --tertiary-color: rgb(110, 110, 110);
+    --warning-color: rgb(168, 59, 59);
+
     --bkg-color: #252222;
+    --wrap-color: rgb(56, 56, 56);
+      --card-color: rgb(50, 50, 50);
+
     --box-shadow: 0 15px 25px rgb(242, 239, 239);
     --color:#f5f2f2;
 
@@ -38,6 +54,9 @@ body {
   margin-bottom: 25px;
   text-align: left;
   padding: 10px;
+  
+  background: var(--card-color);
+
 }
 
 h4 {
@@ -53,13 +72,8 @@ h4 {
   height: 100vh;
 }
 .account-wrap{
-  background: var(--bkg-color);
+  background: var(--wrap-color);
   box-shadow: var(--box-shadow);
-
-}
-.account-wrap.dark-theme{
-  box-shadow: var(--box-shadow);
-
 
 }
 body{
@@ -68,33 +82,55 @@ body{
 }
 
 
-html{
-  background-color:var(--bkg-color);
-  
+html {
+  overflow: hidden;
+  height: 100%;
+
+  background-color:var(--bkg-color);  
 }
+
 form{
   background: var(--bkg-color);
 }
 
 div.container-fluid{
-  background-color: var(--bkg-color);
+  background-color: var(--wrap-color);
 }
-div.container-fluid.dark-theme{
-  background-color: var(--bkg-color);
-}
+
 
 .navbar {
-  background-color: var(--bkg-color);
+  background-color: var(--wrap-color);
 }
 
-.navbar.dark-theme {
+.modal-header,.modal-title,.modal-body {
   background-color: var(--bkg-color);
+  color: var(--text-color);
+  
+  
 }
 
 h1,h2,
 p {
     color: var(--text-color);
 }
+.try {
+  color: var(--text-color);
+}
+
+
+input:valid, textarea:valid, select:valid,
+input:focus, textarea:focus, select:focus{
+  background-color: var(--secondary-color);
+}
+input:hover, textarea:hover, select:hover {
+  background-color: var(--tertiary-color);
+}
+
+input:invalid, textarea:invalid, select:invalid {
+  background-color: var(--warning-color);
+}
+
+
 
 button {
     padding: 10px;
@@ -103,3 +139,4 @@ button {
     color:var(--btn-txt-color);
     background-color: var(--btn-bg-color);
 }
+

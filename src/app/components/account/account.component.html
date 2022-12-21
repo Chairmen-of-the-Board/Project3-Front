@@ -33,30 +33,52 @@
         <ng-container #requestsSection *ngIf="currentNavSection == 'requests';else transactionsSection">
           <div class="spacerline">
             <h2>Requests:</h2>
-            <button class="btn btn-lg btn-outline-primary" (click)="openModal(requestModal)">&plus; Request</button>
+            <button class="btn btn-lg btn-primary" (click)="openModal(requestModal)">&plus; Request</button>
           </div>
-          <app-request-list [mode]="'out'" #requestlist></app-request-list>          
+          <!-- <app-request-list [mode]="'out'" #requestlist></app-request-list>         -->
+          <ul *ngFor="let i of requests">
+            <app-request [request]="i"></app-request>
+          </ul>
         </ng-container>
         <ng-template #transactionsSection>
           <ng-container *ngIf="currentNavSection == 'transactions';else transfersSection">
             <div class="spacerline"> 
               <h2>Transactions:</h2> 
-              <button class="btn btn-lg btn-outline-primary" (click)="openModal(transactionModal)">&plus; Transaction</button>
+              <div>
+                <label class="h2" for="type">Type:</label>&nbsp;&nbsp;
+                <select class="h2" name="type" id="type" [formControl]="txnType" (change)="changeTxnType()">
+                  <option value="Expense">Expense</option>
+                  <option value="Income">Income</option>
+                  <option value="All">All</option>
+                </select>
+                </div>
+                <button class="btn btn-lg btn-outline-primary" (click)="openModal(chartModal)">Open Chart</button> <!-- (click)="toggleExpandChart()" -->
+              <button class="btn btn-lg btn-primary" (click)="openModal(transactionModal)">&plus; Transaction</button>
             </div>
-              <div class="account-card" *ngFor="let txn of transactions">
-                <h2>{{txn.description}} | {{txn.timestamp}}</h2>
-                <h1>{{txn.type}}: {{txn.amount | moneypipe}}</h1>
+               
+              <div *ngFor="let txn of transactions">
+                <div *ngIf="txn.type == txnType.getRawValue() || txnType.getRawValue() == 'All'" class="account-card">
+                  <h2><i>"{{txn.description}}"</i></h2>
+                  <h4>{{txn.timestamp}}</h4>
+
+                  <h1>{{txn.type}}: {{txn.amount | moneypipe}}</h1>
+                </div>
               </div>
               
-
+              <div class="chart-wrap">                
+                <app-charts *ngIf="chartExpanded" [type]="txnType.getRawValue()" [expanded]="chartExpanded"></app-charts>
+              </div>
           </ng-container>
         </ng-template>
         <ng-template #transfersSection>
           <div class="spacerline">
             <h2>Transfers:</h2>
-            <button class="btn btn-lg btn-outline-primary" (click)="openModal(transferModal)">&plus; Transfer</button>
+            <button class="btn btn-lg btn-primary" (click)="openModal(transferModal)">&plus; Transfer</button>
           </div>
-          <app-transfer-list></app-transfer-list>
+          <div *ngFor="let t of transfers">
+            <app-transfer [transfer]="t"></app-transfer>
+          </div>
+         <!-- <app-transfer-list [transfers]="transfers"></app-transfer-list> -->
           
         </ng-template>
         <hr>        
@@ -69,16 +91,13 @@
 <!-- Request Modal -->
   <ng-template #requestModal let-modal>  
     <div class="modal-header">  
-      <h4 class="modal-title" id="modal-basic-title">Create Request</h4>  
+      <h4 class="modal-title" id="modal-basic-title">Request Money</h4>  
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">  
         <span aria-hidden="true">×</span>  
       </button>  
     </div>  
     <div class="modal-body">     
       <app-request-form (submit)="modal.close('SubmittedRequest')"></app-request-form>  
-    </div>  
-    <div class="modal-footer">  
-    <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
     </div>  
   </ng-template>
 
@@ -93,9 +112,7 @@
     <div class="modal-body">
       <app-transaction-form (submit)="modal.close('Submitted')"></app-transaction-form>
     </div>
-    <div class="modal-footer">
-    <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
-    </div>
+
   </ng-template>
 
   <!-- Transfer Modal -->
@@ -109,13 +126,26 @@
     <div class="modal-body">
 
       <h5>Transfer Money To One of Your Other Accounts:</h5><br>
-      <app-transfer-form [accounts]="accounts" (submit)="modal.close('Submitted')"></app-transfer-form><br>
+      <app-transfer-form [accounts]="accounts" (submit)="modal.close('TransferSubmitted')"></app-transfer-form><br>
       <h6 align="center">-- <b><i>OR</i></b> --</h6>
       <h5>Send Money To Someone Else:</h5><br>
       <send (submit)="modal.close('Submitted')"></send><br>
 
     </div>
-    <div class="modal-footer">
-      <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
-    </div>
   </ng-template>
+
+
+    <!-- Chart Modal -->
+    <ng-template #chartModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Chart</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+    
+      <app-charts  [type]="txnType.getRawValue()" [expanded]="chartExpanded"></app-charts>
+    
+      </div>
+    </ng-template>
