@@ -33,7 +33,7 @@ export class ChartsComponent implements OnInit {
     this.getAllTransactions();
 
       // SET DARK MODE
-    if (localStorage.getItem('dark-theme')) {
+    if (localStorage.getItem('dark-theme') =='true') {
       document.body.classList.toggle('dark-theme', true);
     } else {
       document.body.classList.toggle('dark-theme', false);

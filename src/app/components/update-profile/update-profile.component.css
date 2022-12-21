@@ -8,10 +8,10 @@
 
 .form-wrap {
     width: 55%;
-    height: 85%;
+    height: 100%;
     align-items: center;
     text-align: center;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #revImg {

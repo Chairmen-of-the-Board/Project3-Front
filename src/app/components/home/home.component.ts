@@ -48,13 +48,12 @@ export class HomeComponent implements OnInit {
       }
       
   });
-
-  // SET DARK MODE
-  if (localStorage.getItem('dark-theme')) {
-    document.body.classList.toggle('dark-theme', true);
-  } else {
-    document.body.classList.toggle('dark-theme', false);
-  }
+      // SET DARK MODE
+    if (localStorage.getItem('dark-theme') =='true') {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
+    }
 
 
 
