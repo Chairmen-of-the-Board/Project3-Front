@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { User } from '../models/user';
 import { UserRequest } from '../models/userrequest';
 import { AccountService } from './account.service';
 
@@ -16,6 +17,7 @@ export class RequestService {
   requestUrl: string = environment.url+'request';
 
   constructor(private http: HttpClient) { }
+
 
   getIncoming(): Observable<UserRequest[]>{
     this.userId = localStorage.getItem('current-user') || '';

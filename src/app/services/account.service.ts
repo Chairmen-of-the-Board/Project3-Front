@@ -42,6 +42,14 @@ export class AccountService {
     return this.http.get<Transaction[]>(this.accountUrl+`/${accountId}/transaction`, {headers: environment.headers, withCredentials: environment.withCredentials});
    }
 
+   // get all transfers for a given account id
+   getTransfers(): Observable<Transfer[]> {
+    this.accountId = localStorage.getItem('current-account') || '';
+    return this.http.get<Transfer[]>(this.accountUrl+`/${this.accountId}/transfer`, {headers: environment.headers, withCredentials: environment.withCredentials});
+   }
+
+
+
    upsertAccount(account: Account): Observable<Account> {
     environment.headers['Current-User'] = this.userId;
     return this.http.post<Account>(this.accountUrl, account, {headers: environment.headers, withCredentials: environment.withCredentials});

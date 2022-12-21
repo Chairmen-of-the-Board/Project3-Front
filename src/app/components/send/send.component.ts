@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Transfer } from 'src/app/models/transfer';
 import { Form, FormControl } from '@angular/forms';
 import { map, Observable, reduce } from 'rxjs';
@@ -14,6 +14,7 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class SendComponent implements OnInit {
   
+  @Output() submit: EventEmitter<void> = new EventEmitter<void>();
 
   txnAmount: FormControl = new FormControl(['']);
   txnDescription: FormControl = new FormControl(['']);
@@ -62,7 +63,7 @@ export class SendComponent implements OnInit {
     const fromId = Number(this.accountId);
     const toId = accountId;
     const transfer = new Transfer(0, fromId, toId, amount);
-
+    
     this.accountService.createTransfer(transfer).subscribe({
       next: (res) => {
         // do something with res
@@ -72,6 +73,7 @@ export class SendComponent implements OnInit {
       },
       complete: () => {      
         console.log("sent");
+        this.submit.emit();
       }
     });
   }

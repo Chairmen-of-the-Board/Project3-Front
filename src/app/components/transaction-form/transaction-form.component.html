@@ -1,0 +1,16 @@
+<form class="input-form">
+    <div class="input-group mb-3">
+        <select class="form-select" [formControl]="txnType" aria-label="Default select example" style="width: 30px;">
+            <option value="Expense">Expense (-)</option>
+            <option value="Income">Income (+)</option>
+        </select>
+        <span class="input-group-text">$</span>
+        <input type="number" placeholder="Amount" [formControl]="txnAmount" class="form-control" aria-label="Amount">
+    </div>
+    <div class="input-group">
+        <textarea class="form-control" [formControl]="txnDescription" placeholder="Transaction Description..."
+            aria-label="With textarea"></textarea>
+    </div>
+    <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit"
+        (click)="addTransaction(txnAmount.value, txnDescription.value, txnType.value);">Add</button>
+</form>

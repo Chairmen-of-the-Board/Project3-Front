@@ -1,0 +1,16 @@
+<form class="input-form">
+    <div class="input-group mb-3">
+        <span class="input-group-text">$</span>
+        <input type="number" placeholder="Amount" [formControl]="transferAmount" class="form-control"
+            aria-label="Amount (to the nearest dollar)">
+        <span class="input-group-text">To:</span>
+        <select class="form-select" [formControl]="transferToAcct" aria-label="Default select example"
+            style="width: 30px;">
+            <option *ngFor="let account of accounts" [value]="account.id">
+                {{account.name}}
+            </option>
+        </select>
+    </div>
+    <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit"
+        (click)="makeTransfer(transferAmount.value, transferToAcct.value);">Transfer</button>
+</form>

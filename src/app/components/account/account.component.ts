@@ -1,13 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { Form, FormControl } from '@angular/forms';
 import { ChartComponent } from 'chart.js';
-import { map, Observable, reduce } from 'rxjs';
+import { map, Observable, reduce, Subscription } from 'rxjs';
 import { Account } from 'src/app/models/account';
 import { Transaction } from 'src/app/models/transaction';
 import { Transfer } from 'src/app/models/transfer';
+import { MoneyPipe } from 'src/app/pipes/moneypipe';
 import { AccountService } from 'src/app/services/account.service';
 import { RequestService } from 'src/app/services/request.service';
+  
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';    
+
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { RequestListComponent } from '../request-list/request-list.component';
+import { TransferListComponent } from '../transfer-list/transfer-list.component';
+import { UserRequest } from 'src/app/models/userrequest';
+import { ChartsComponent } from '../charts/charts.component';
 
 @Component({
   selector: 'app-account',
@@ -16,14 +27,18 @@ import { RequestService } from 'src/app/services/request.service';
 })
 export class AccountComponent implements OnInit {
 
-  
+  // navigation
+  currentNavSection: string = 'transactions';
 
-  txnAmount: FormControl = new FormControl(['']);
-  txnDescription: FormControl = new FormControl(['']);
-  accountId: string = '';
+   @ViewChild('app-chart') appchart!: ChartsComponent;
+   chartExpanded: boolean = false;
+
   txnType: FormControl = new FormControl(['']);
+
+  accountId: string = '';
   userAccount!: Account;
   
+  // account display forms
   accountName: FormControl = new FormControl(['']);
   balance: FormControl = new FormControl(['']);
   accountDescription: FormControl = new FormControl(['']);
@@ -35,51 +50,155 @@ export class AccountComponent implements OnInit {
   balanceStyle = {};
 
   @Output() transactions: Transaction[] = [];
-
-  // transfer vars
-  transferToAcct: FormControl = new FormControl(['']);
-  transferAmount: FormControl = new FormControl(['']);
-  transferFormOpen: boolean = false;
+  @Output() transfers: Transfer[] = [];
+  @Output() requests: UserRequest[] = [];
 
   accounts: Account[] = [];
 
-  constructor(private accountService: AccountService) { 
+  //modal vars
+  modalCloseResult: string = '';
+
+  // open modal
+  openModal(content:any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg'}).result.then((result) => {
+      this.modalCloseResult = `Closed with: ${result}`;
+
+      // if the form is submitted in the modal body, refresh the account in view (wait 400ms for transfer)
+      if (result.includes('Submitted')) {        
+        
+        if (result.includes('Request')) {
+           setTimeout(() => this.getAllRequests(),400);
+          
+        }
+        if (result.includes('Transfer')) {
+        //  alert('hit submit transfer button');
+          // setTimeout(() => this.transferList.ngOnInit(),400);
+        }
+
+        setTimeout(() => this.ngOnInit(),800);       
+       // this.ngOnInit();
+         
+      }
+
+    }, (reason) => {
+      this.modalCloseResult = `Dismissed ${this.getDismissReason(reason)}`;      
+    });
+  } 
+  // get modal dismiss case
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+
+
+  constructor(private accountService: AccountService, private modalService: NgbModal, private requestService : RequestService) { 
     // this.accountId = accountService.accountId;
     // added below line because it's more dependable than calling accountservice.accountid
     this.accountId = localStorage.getItem('current-account') || '';
+    
+  }
+
+
+
+  changeTxnType() {
+    this.chartExpanded = false;
+    this.appchart.type = this.txnType.getRawValue();
+  }
+  toggleExpandChart() {
+    this.chartExpanded = ! this.chartExpanded;
   }
 
   ngOnInit(): void {
     this.getAccount();
     this.getAllTransactions();
+    this.getAllTransfers();
+    this.getAllRequests();
 
     // for transfers, get all accounts
     this.getAllAccounts();
 
+    
+      // SET DARK MODE
+    if (localStorage.getItem('dark-theme')) {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
+    }
+
+    this.txnType.setValue('All');
 
 
   }
 
-  addTransaction(amount: number, description: string, type: string) {
-    const txn = new Transaction(0, amount, description, type, Date.now());
-    this.accountService.createTransaction(this.accountId, txn).subscribe({
-      next: () => {
-        this.accountMessage = 'New transaction was saved!';
+
+  navToAccountSection(section: string) {
+    
+    let navlinkRequests = document.getElementById("navlink-requests") as HTMLAnchorElement;
+    let navlinkTransactions = document.getElementById("navlink-transactions") as HTMLAnchorElement;
+    let navlinkTransfers = document.getElementById("navlink-transfers") as HTMLAnchorElement;
+
+    navlinkRequests.setAttribute('class', 'nav-link');
+    navlinkTransactions.setAttribute('class', 'nav-link');
+    navlinkTransfers.setAttribute('class', 'nav-link');
+
+    this.currentNavSection = section;
+
+    switch(section) {
+      case 'requests':
+        navlinkRequests.setAttribute('class', 'nav-link active');
+        this.getAllRequests();
+        break;
+      case 'transactions':
+        navlinkTransactions.setAttribute('class', 'nav-link active');
+        this.getAllTransactions();
+        break;
+      case 'transfers':
+        navlinkTransfers.setAttribute('class', 'nav-link active');
+        this.getAllTransfers();
+        break;
+      default:
+        //do default
+        break;
+    }
+  }
+
+  getAllRequests() {
+    this.requestService.getOutgoing().subscribe({
+      next: (resp) => {
+        this.requests = resp;
       },
       error: () => {
-        this.accountMessage = 'New transaction was not saved...';
+       // alert('No requests were retrieved...');
       },
       complete: () => {
-        this.getAccount();
-        this.getAllTransactions();
+        // alert('Requests were retrieved!');
+        
       }
-    });
+    }
+    );
   }
 
-  openCreateForm() {
-    this.createFormOpen = true;
+  getAllTransfers() {
+    this.accountService.getTransfers().subscribe({
+      next: (resp) => {
+        this.transfers = resp;
+      },
+      error: () => {
+       // alert('No transfers were retrieved...');
+      },
+      complete: () => {
+        // alert('Transfers were retrieved!');
+        
+      }
+    }
+    );
   }
-
 
   getAllTransactions() {
     this.accountService.getTransactions(this.accountId).subscribe({
@@ -139,33 +258,6 @@ export class AccountComponent implements OnInit {
   }
 
   // transfer stuff
-  
-  openTransferForm() {
-    this.transferFormOpen = true;
-  }
-
-
-  // makes a transfer
-  makeTransfer(amount: number, accountId: any) {
-    const fromId = Number(this.accountId);
-    const toId = accountId;
-    const transfer = new Transfer(0, fromId, toId, amount);
- 
-    this.accountService.createTransfer(transfer).subscribe({
-      next: (res) => {
-        // do something with res
-       
-      },
-      error: (e) => {
-        alert(e.message);
-      },
-      complete: () => {      
-        this.getAccount();
-      }
-    });
-  }
-
-
 
   getAllAccounts() {
     this.accountService.getAllAccounts().subscribe({

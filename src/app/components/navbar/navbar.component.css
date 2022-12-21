@@ -1,9 +1,10 @@
 #revicon {
-    width: 8%;
-    height: 8%;
+    width: 18%;
+    height: 18%;
     margin-right: 10px;
 }
 
 nav {
-    height: 7vh;
+    top: 0vh;
+    height: 15%;
 }

@@ -1,3 +1,12 @@
-<div *ngFor="let i of requests">
-    <app-request [request]="i"></app-request>
+
+<button *ngIf="mode != 'out' && requests.length>0" class="btn btn-lg btn-secondary" (click)="toggleExpand()">
+    <i *ngIf="!expanded" class="bi bi-arrow-bar-down"></i>
+    <i *ngIf="expanded" class="bi bi-arrow-bar-up"></i>
+    Incoming Requests
+</button>
+
+<div *ngIf="expanded || mode == 'out'">
+<ul *ngFor="let i of requests">
+    <app-request (update)="Update()" [request]="i"></app-request>
+</ul>
 </div>

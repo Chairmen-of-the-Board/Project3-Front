@@ -20,6 +20,12 @@ import { RequestFormComponent } from './components/request-form/request-form.com
 import { ChartsComponent } from './components/charts/charts.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 
+import { MoneyPipe } from './pipes/moneypipe';
+import { TransferComponent } from './components/transfer/transfer.component';
+import { TransferListComponent } from './components/transfer-list/transfer-list.component';
+import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
+import { TransferFormComponent } from './components/transfer-form/transfer-form.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +41,12 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
     ChartsComponent,
     SendComponent,
     SendHistoryComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    MoneyPipe,
+    TransferComponent,
+    TransferListComponent,
+    TransactionFormComponent,
+    TransferFormComponent
   ],
   imports: [
     BrowserModule,

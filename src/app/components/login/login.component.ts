@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
+
   }
 
   attemptLogin(email: string, password: string) {

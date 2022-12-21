@@ -1,10 +1,9 @@
-<nav class="navbar bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" [routerLink]="['/home']"><img id="revicon" src="../../../assets/images/favicon.png" alt="Revature Icon">Revature Banking</a>
+<nav class="navbar container-fluid account-wrap">
+        <a class="navbar-brand" [routerLink]="['/home']"><img id="revicon" src="../../../assets/images/transaction hero logo.png" alt="TH Logo"></a>
         <form class="d-flex" role="search">
             <app-darkmode></app-darkmode> &nbsp;
             <button class="btn btn-info" [routerLink]="['/update']"><i class="bi bi-person-circle" style='height:32px;width:32px;' ></i></button> &nbsp;
-            <button class="btn btn-outline-danger" (click)="logout();">Logout</button>
+            <button class="btn btn-danger" (click)="logout();">Logout</button>
         </form>
-    </div>
+
 </nav>

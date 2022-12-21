@@ -1,50 +1,151 @@
 <app-navbar></app-navbar>
-<div class="home-wrap">
+<div class="home-wrap">  
     <div class="account-wrap">
-        <h2>Account Details: {{accountName.value}}</h2>
-        <h2 id="balance" [style]="balanceStyle">Balance: ${{balance.value}}</h2>
-        <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen && !transferFormOpen" (click)="openCreateForm();">Add Transaction</button>
-          <form class="input-form" *ngIf="createFormOpen">
-                <div class="input-group mb-3">
-                  <select class="form-select" [formControl]="txnType" aria-label="Default select example" style="width: 30px;">
-                    <option value="Expense">Expense (-)</option>
-                    <option value="Income">Income (+)</option>
-                  </select>
-                  <span class="input-group-text">$</span>
-                  <input type="number" placeholder="Amount" [formControl]="txnAmount" class="form-control" aria-label="Amount (to the nearest dollar)">
-                </div>
-                <div class="input-group">
-                  <textarea class="form-control" [formControl]="txnDescription" placeholder="Account Description..." aria-label="With textarea"></textarea>
-                </div>
-                <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit" (click)="addTransaction(txnAmount.value, txnDescription.value, txnType.value);">Add</button>
-          </form>
-        <!-- Transfer -->
-        <button class="btn btn-outline-primary btn-lg" *ngIf="!transferFormOpen && !createFormOpen" (click)="openTransferForm();">Make A Transfer</button>
-        <form class="input-form" *ngIf="transferFormOpen">
-          <div class="input-group mb-3">
-            <span class="input-group-text">$</span>
-            <input type="number" placeholder="Amount" [formControl]="transferAmount" class="form-control"
-              aria-label="Amount (to the nearest dollar)">
-            <span class="input-group-text">To:</span>
-            <select class="form-select" [formControl]="transferToAcct" aria-label="Default select example" style="width: 30px;">
-              <option *ngFor="let account of accounts" [value]="account.id">
-                {{account.name}}
-              </option>
-            </select>
-          </div>
-          <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit"
-            (click)="makeTransfer(transferAmount.value, transferToAcct.value);">Transfer</button>
-        </form>
-        <!-- Send -->
-        <send></send>
+      <h2>Account Details: {{accountName.value}}</h2> 
+      <h2 id="balance" [style]="balanceStyle">Balance: {{balance.value | moneypipe}}</h2>
+      <div style="display: flex;justify-content: flex-start;">
+        <button class="btn btn-lg btn-secondary" routerLink="/home"><i class="bi bi-arrow-90deg-up"></i>Back To 
+        Accounts</button>       
+      </div>
 
-        <div class="account-card"*ngFor="let txn of transactions">
-            <h2>{{txn.description}} | {{txn.timestamp}}</h2>
-            <h1>{{txn.type}}: ${{txn.amount}}</h1>
-        </div>
-        <p>{{accountMessage}}</p>
+      <!-- Buttons 
+      <div>
+        
+        <button class="btn btn-lg btn-outline-primary" (click)="openModal(sendModal)">Send Money</button>
+      </div> -->
+
+      <hr>
+
+      <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs nav-justified">
+          <li class="nav-item">
+            <a id="navlink-transactions" class="nav-link active" (click)="navToAccountSection('transactions')">Transactions</a>
+          </li>
+          <li class="nav-item">
+            <a id="navlink-requests" class="nav-link" aria-current="page" (click)="navToAccountSection('requests')">Requests</a>
+          </li>
+          <li class="nav-item">
+            <a id="navlink-transfers" class="nav-link"  (click)="navToAccountSection('transfers')">Transfers</a>
+          </li>
+        </ul>
+      <hr>
+      <!-- Navigation Content (tab-dependent) -->
+        <ng-container #requestsSection *ngIf="currentNavSection == 'requests';else transactionsSection">
+          <div class="spacerline">
+            <h2>Requests:</h2>
+            <button class="btn btn-lg btn-primary" (click)="openModal(requestModal)">&plus; Request</button>
+          </div>
+          <!-- <app-request-list [mode]="'out'" #requestlist></app-request-list>         -->
+          <ul *ngFor="let i of requests">
+            <app-request [request]="i"></app-request>
+          </ul>
+        </ng-container>
+        <ng-template #transactionsSection>
+          <ng-container *ngIf="currentNavSection == 'transactions';else transfersSection">
+            <div class="spacerline"> 
+              <h2>Transactions:</h2> 
+              <div>
+                <label class="h2" for="type">Type:</label>&nbsp;&nbsp;
+                <select class="h2" name="type" id="type" [formControl]="txnType" (change)="changeTxnType()">
+                  <option value="Expense">Expense</option>
+                  <option value="Income">Income</option>
+                  <option value="All">All</option>
+                </select>
+                </div>
+                <button class="btn btn-lg btn-outline-primary" (click)="openModal(chartModal)">Open Chart</button> <!-- (click)="toggleExpandChart()" -->
+              <button class="btn btn-lg btn-primary" (click)="openModal(transactionModal)">&plus; Transaction</button>
+            </div>
+               
+              <div *ngFor="let txn of transactions">
+                <div *ngIf="txn.type == txnType.getRawValue() || txnType.getRawValue() == 'All'" class="account-card">
+                  <h2><i>"{{txn.description}}"</i></h2>
+                  <h4>{{txn.timestamp}}</h4>
+
+                  <h1>{{txn.type}}: {{txn.amount | moneypipe}}</h1>
+                </div>
+              </div>
+              
+              <div class="chart-wrap">                
+                <app-charts *ngIf="chartExpanded" [type]="txnType.getRawValue()" [expanded]="chartExpanded"></app-charts>
+              </div>
+          </ng-container>
+        </ng-template>
+        <ng-template #transfersSection>
+          <div class="spacerline">
+            <h2>Transfers:</h2>
+            <button class="btn btn-lg btn-primary" (click)="openModal(transferModal)">&plus; Transfer</button>
+          </div>
+          <div *ngFor="let t of transfers">
+            <app-transfer [transfer]="t"></app-transfer>
+          </div>
+         <!-- <app-transfer-list [transfers]="transfers"></app-transfer-list> -->
+          
+        </ng-template>
+        <hr>        
+   
     </div>
 </div>
-<send></send>
-<app-request-list [mode]="'out'"></app-request-list>
-<app-request-form></app-request-form>
+
+
+
+<!-- Request Modal -->
+  <ng-template #requestModal let-modal>  
+    <div class="modal-header">  
+      <h4 class="modal-title" id="modal-basic-title">Request Money</h4>  
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">  
+        <span aria-hidden="true">×</span>  
+      </button>  
+    </div>  
+    <div class="modal-body">     
+      <app-request-form (submit)="modal.close('SubmittedRequest')"></app-request-form>  
+    </div>  
+  </ng-template>
+
+  <!-- Transaction Modal -->
+  <ng-template #transactionModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add Transaction</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-transaction-form (submit)="modal.close('Submitted')"></app-transaction-form>
+    </div>
+
+  </ng-template>
+
+  <!-- Transfer Modal -->
+  <ng-template #transferModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Transfer Money</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <h5>Transfer Money To One of Your Other Accounts:</h5><br>
+      <app-transfer-form [accounts]="accounts" (submit)="modal.close('TransferSubmitted')"></app-transfer-form><br>
+      <h6 align="center">-- <b><i>OR</i></b> --</h6>
+      <h5>Send Money To Someone Else:</h5><br>
+      <send (submit)="modal.close('Submitted')"></send><br>
+
+    </div>
+  </ng-template>
+
+
+    <!-- Chart Modal -->
+    <ng-template #chartModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Chart</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+    
+      <app-charts  [type]="txnType.getRawValue()" [expanded]="chartExpanded"></app-charts>
+    
+      </div>
+    </ng-template>
