@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import Chart from 'chart.js/auto';
 import { firstValueFrom, Timestamp } from 'rxjs';
@@ -14,7 +14,9 @@ import { AccountService } from 'src/app/services/account.service';
 export class ChartsComponent implements OnInit {
   
   public chart: any;
-  public transactions: Transaction[] = [];
+  @Input() expanded: boolean = false;
+  @Input() type: any;
+  @Input() transactions: Transaction[] = [];
   accountId: string = '';
 
 
@@ -26,7 +28,7 @@ export class ChartsComponent implements OnInit {
 
 
 
-  async ngOnInit() {
+   public ngOnInit() {
 
     this.getAllTransactions();
 
@@ -39,7 +41,9 @@ export class ChartsComponent implements OnInit {
         
   }
 
-  
+  public OnChanges() {
+    this.getAllTransactions();
+  }
 
   getAllTransactions() { 
 
@@ -71,44 +75,98 @@ export class ChartsComponent implements OnInit {
   createChart(){
 
   //  alert('createchart');
-    let amounts: Array<number> = new Array<number>;
-    let times: Array<number> = new Array<number>;
-    let descriptions: Array<string> = new Array<string>;
-    for (let i in this.transactions) {
-      if (this.transactions[i].type === 'Expense') {
-        amounts.push(this.transactions[i].amount);
-        times.push(this.transactions[i].timestamp);
-        descriptions.push(this.transactions[i].description);
-      }
-    }
-    amounts.reverse();
-    times.reverse();
-    descriptions.reverse();
+    let expenseAmounts: Array<string> = new Array<string>;
+    let expenseTimes: Array<string> = new Array<string>;
+    let expenseDescriptions: Array<string> = new Array<string>;
 
-
-    console.log(amounts);
     
+    let incomeAmounts: Array<string> = new Array<string>;
+    let incomeTimes: Array<string> = new Array<string>;
+    let incomeDescriptions: Array<string> = new Array<string>;
 
-  
-    this.chart = new Chart("MyChart", {
-      type: 'line', //this denotes tha type of chart
+    
+    let allAmounts: Array<string> = new Array<string>;
+    let allTimes: Array<string> = new Array<string>;
+    let allDescriptions: Array<string> = new Array<string>;
 
-      data: {// values on X-Axis
-        labels: times, 
-	       datasets: [
-          {
-            label: "Expenses",
-            data: amounts,
-            backgroundColor: 'red',
-            
-          }
-        ]
-      },
-      options: {
-        aspectRatio:2.5
+    for (let i in this.transactions) {
+
+      if (this.transactions[i].type == 'Income') {
+        incomeAmounts.push(this.transactions[i].amount +'');
+        incomeTimes.push(this.transactions[i].timestamp.substring(0,10));
+        incomeDescriptions.push(this.transactions[i].description + '\n' + this.transactions[i].timestamp.substring(0,10));
+      } else if (this.transactions[i].type == 'Expense') {
+        expenseAmounts.push(this.transactions[i].amount + '');
+        expenseTimes.push(this.transactions[i].timestamp.substring(0,10));
+        expenseDescriptions.push(this.transactions[i].description + '\n' + this.transactions[i].timestamp.substring(0,10));
       }
-      
-    });
+      allAmounts.push(this.transactions[i].amount + '');
+      allTimes.push(this.transactions[i].timestamp.substring(0,10));
+      allDescriptions.push(this.transactions[i].description + '\n' + this.transactions[i].timestamp.substring(0,10));
+
+    }
+
+    if (this.type == 'Income') {
+      incomeAmounts.reverse();
+      incomeTimes.reverse();
+      incomeDescriptions.reverse();
+    } else if (this.type == 'Expense') {
+      expenseAmounts.reverse();
+      expenseTimes.reverse();
+      expenseDescriptions.reverse();
+    } 
+
+    if (this.type == 'Expense' || this.type == 'Income') {
+    
+      this.chart = new Chart("MyChart", {
+        type: 'line', //this denotes tha type of chart
+
+        data: {// values on X-Axis
+          labels: (this.type == 'Income'? incomeDescriptions: expenseDescriptions), 
+          datasets: [
+            {
+              label: this.type,
+              data: (this.type == 'Income'? incomeAmounts: expenseAmounts),
+              backgroundColor: (this.type == 'Income'? 'green':'red'),
+              
+            }
+          ]
+        },
+        options: {
+          aspectRatio:2.5
+        }
+        
+      });
+    } else {
+        this.chart = new Chart("MyChart", {
+        type: 'line', //this denotes tha type of chart
+
+        data: {// values on X-Axis
+          labels: allTimes,
+          datasets: [
+            {
+              label: "Income",
+              data: incomeAmounts,
+              backgroundColor: 'green',
+              
+            },
+            {
+              label: "Expense",
+              data: expenseAmounts,
+              backgroundColor: 'red',
+              
+            }
+          ]
+        },
+        options: {
+          aspectRatio:2.5
+        }
+        
+      });
+
+    }
+
+
   }
 
 

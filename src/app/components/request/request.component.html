@@ -1,9 +1,9 @@
 <div class="account-card">
     <h1>Amount: {{request.amount | moneypipe}}</h1>
-    <p>Requesting Account: {{request.requestAccId}}</p>
-    <p>Request Recipient: {{request.targetId}}</p>
+    <p>For: {{request.targetEmail}}</p>
     <p>Description: {{request.description}}</p>
     <p>Time Sent: {{request.creationDate}}</p>
+    <div class="spacer-line">
     <p>Status: {{request.status}}</p>
     <div class="input-group mb-3" *ngIf="type == 'in' && request.status == 'Pending'">    
       <select class="form-select" [formControl]="transferFromAcct" aria-label="Default select example" style="width: 30px;">
@@ -13,6 +13,7 @@
             </option>
           </select>
         <button class="btn btn-success btn-lg" type="submit" (click)="approveRequest()">Approve</button>
-        <button class="btn btn-outline-danger btn-lg" type="submit" (click)="denyRequest()">Deny</button>
+        <button class="btn btn-danger btn-lg" type="submit" (click)="denyRequest()">Deny</button>
+    </div>
     </div>
 </div>

@@ -1,12 +1,14 @@
+
 .home-wrap {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-y: hidden;
 }
 
 .account-wrap {
-    position: relative;
+    position: fixed;
     width: 80%;
     height: auto;
     text-align: center;
@@ -16,6 +18,20 @@
     max-height: 75%;
     overflow-y: auto;
     
+}
+
+.request-wrap {
+    position: fixed;
+    width: 50%;
+    height: auto;
+    top:0%;
+    text-align: center;
+    padding-bottom: 10%;
+    padding-top: 3%;
+    margin-top: 3%;
+    max-height: 75%;
+    overflow-y: auto;
+
 }
 
 h2 {

@@ -6,11 +6,11 @@
             <h2>{{account.name}}</h2>
             <h4>Description: {{account.description}}</h4>
             <h4>Created On: {{account.creationDate}}</h4>
-            <button class="btn btn-outline-secondary btn-lg" (click)="clickAccountDetails($event)">Account Details</button>
+            <button class="btn btn-primary btn-lg" (click)="clickAccountDetails($event)">Account Details</button>
             <h1>Balance: {{account.balance | moneypipe}}</h1>
         </div>
         <p>{{accountMessage}}</p>
-        <button class="btn btn-outline-primary btn-lg" *ngIf="!createFormOpen" (click)="openCreateForm();">Open New Account</button>
+        <button class="btn btn-secondary btn-lg" *ngIf="!createFormOpen" (click)="openCreateForm();">Open New Account</button>
         <form class="input-form" *ngIf="createFormOpen">
               <div class="input-group mb-3">
                 <input type="text" class="form-control" [formControl]="accountName" placeholder="Account Name" id="basic-name" aria-describedby="basic-addon3">
@@ -22,10 +22,15 @@
               <div class="input-group">
                 <textarea class="form-control" [formControl]="accountDescription" placeholder="Account Description..." aria-label="With textarea"></textarea>
               </div>
-              <button id="submitButton" class="btn btn-outline-secondary btn-lg" type="submit" (click)="attemptUpsertAccount(accountName.value, balance.value, accountDescription.value);">Save</button>
+              <button id="submitButton" class="btn btn-secondary btn-lg" type="submit" (click)="attemptUpsertAccount(accountName.value, balance.value, accountDescription.value);">Save</button>
         </form>
         <br>
         <hr>
-        <app-request-list (update)="ngOnInit()"></app-request-list>
     </div>
+    <div class="request-wrap">
+
+      <app-request-list (update)="ngOnInit()"></app-request-list>
+
+    </div>
+    
 </div>
