@@ -26,7 +26,7 @@ export class DarkmodeComponent implements OnInit {
     }
   }
   toggleDarkTheme(): void {
-    alert('dark mode is ' + this.isDark + ' and\n' + 'localstorage is ' + localStorage.getItem('dark-theme'));
+    
 
     if(localStorage.getItem('dark-theme') == 'true'){
       document.body.classList.toggle('dark-theme');
@@ -39,7 +39,7 @@ export class DarkmodeComponent implements OnInit {
     }
 
 
-    alert('now dark mode is ' + this.isDark + ' and\n' + 'localstorage is ' + localStorage.getItem('dark-theme'));
+    
 
 
  }
