@@ -41,6 +41,9 @@
             <div class="col-12">
               <button class="btn btn-success btn-lg" type="submit" (click)="attemptRegister(email.value, password.value, firstname.value, lastname.value, address.value, phone.value);" [disabled]= "email.invalid || password.invalid || firstname.invalid || firstname.invalid || lastname.invalid || address.invalid || phone.invalid">Register</button>
             </div>
+            <div class="col-12">
+              <button class="btn btn-outline-secondary btn-lg" type="submit" [routerLink]="['/login']">Login</button>
+            </div>
           </div>
         </form>
           <p>{{noticeMessage}}</p>
