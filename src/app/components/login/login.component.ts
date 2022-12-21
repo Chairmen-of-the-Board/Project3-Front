@@ -18,7 +18,12 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-
+      // SET DARK MODE
+    if (localStorage.getItem('dark-theme') =='true') {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
+    }
 
   }
 

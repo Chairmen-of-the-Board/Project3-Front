@@ -14,7 +14,6 @@ import { AccountService } from 'src/app/services/account.service';
 export class ChartsComponent implements OnInit {
   
   public chart: any;
-  @Input() expanded: boolean = false;
   @Input() type: any;
   @Input() transactions: Transaction[] = [];
   accountId: string = '';
@@ -33,7 +32,7 @@ export class ChartsComponent implements OnInit {
     this.getAllTransactions();
 
       // SET DARK MODE
-    if (localStorage.getItem('dark-theme')) {
+    if (localStorage.getItem('dark-theme') =='true') {
       document.body.classList.toggle('dark-theme', true);
     } else {
       document.body.classList.toggle('dark-theme', false);

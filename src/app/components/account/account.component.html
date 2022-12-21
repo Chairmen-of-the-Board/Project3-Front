@@ -1,12 +1,17 @@
 <app-navbar></app-navbar>
 <div class="home-wrap">  
+
     <div class="account-wrap">
-      <h2>Account Details: {{accountName.value}}</h2> 
+      
+  <div style="display: flex; justify-content: flex-start; align-self: flex-start;">
+    <button class="btn btn-lg btn-secondary back-button" routerLink="/home"><i class="bi bi-arrow-90deg-up"></i>Back To
+      Accounts</button>
+  </div>
+
+      <h1>{{accountName.value}}</h1> 
+      <h6>Account Number: {{userAccount.id}}</h6>
       <h2 id="balance" [style]="balanceStyle">Balance: {{balance.value | moneypipe}}</h2>
-      <div style="display: flex;justify-content: flex-start;">
-        <button class="btn btn-lg btn-secondary" routerLink="/home"><i class="bi bi-arrow-90deg-up"></i>Back To 
-        Accounts</button>       
-      </div>
+
 
       <!-- Buttons 
       <div>
@@ -65,9 +70,6 @@
                 </div>
               </div>
               
-              <div class="chart-wrap">                
-                <app-charts *ngIf="chartExpanded" [type]="txnType.getRawValue()" [expanded]="chartExpanded"></app-charts>
-              </div>
           </ng-container>
         </ng-template>
         <ng-template #transfersSection>
@@ -145,7 +147,7 @@
       </div>
       <div class="modal-body">
     
-      <app-charts  [type]="txnType.getRawValue()" [expanded]="chartExpanded"></app-charts>
+      <app-charts  [type]="txnType.getRawValue()"></app-charts>
     
       </div>
     </ng-template>

@@ -30,8 +30,7 @@ export class AccountComponent implements OnInit {
   // navigation
   currentNavSection: string = 'transactions';
 
-   @ViewChild('app-chart') appchart!: ChartsComponent;
-   chartExpanded: boolean = false;
+  @ViewChild('app-chart') appchart!: ChartsComponent;
 
   txnType: FormControl = new FormControl(['']);
 
@@ -107,12 +106,9 @@ export class AccountComponent implements OnInit {
 
 
   changeTxnType() {
-    this.chartExpanded = false;
     this.appchart.type = this.txnType.getRawValue();
   }
-  toggleExpandChart() {
-    this.chartExpanded = ! this.chartExpanded;
-  }
+
 
   ngOnInit(): void {
     this.getAccount();
@@ -125,7 +121,7 @@ export class AccountComponent implements OnInit {
 
     
       // SET DARK MODE
-    if (localStorage.getItem('dark-theme')) {
+    if (localStorage.getItem('dark-theme') =='true') {
       document.body.classList.toggle('dark-theme', true);
     } else {
       document.body.classList.toggle('dark-theme', false);
