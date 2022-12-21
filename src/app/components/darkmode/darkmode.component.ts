@@ -18,13 +18,15 @@ export class DarkmodeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if(localStorage.getItem('dark-theme')=='true'){
-      document.body.classList.toggle('dark-theme');
+      // SET DARK MODE
+    if (localStorage.getItem('dark-theme') =='true') {
+      document.body.classList.toggle('dark-theme', true);
+    } else {
+      document.body.classList.toggle('dark-theme', false);
     }
-
   }
   toggleDarkTheme(): void {
-
+    alert('dark mode is ' + this.isDark + ' and\n' + 'localstorage is ' + localStorage.getItem('dark-theme'));
 
     if(localStorage.getItem('dark-theme') == 'true'){
       document.body.classList.toggle('dark-theme');
@@ -35,6 +37,9 @@ export class DarkmodeComponent implements OnInit {
       document.body.classList.toggle('dark-theme');
       localStorage.setItem('dark-theme', 'true');
     }
+
+
+    alert('now dark mode is ' + this.isDark + ' and\n' + 'localstorage is ' + localStorage.getItem('dark-theme'));
 
 
  }

@@ -125,7 +125,7 @@ export class AccountComponent implements OnInit {
 
     
       // SET DARK MODE
-    if (localStorage.getItem('dark-theme')) {
+    if (localStorage.getItem('dark-theme') =='true') {
       document.body.classList.toggle('dark-theme', true);
     } else {
       document.body.classList.toggle('dark-theme', false);
