@@ -14,7 +14,6 @@ import { AccountService } from 'src/app/services/account.service';
 export class ChartsComponent implements OnInit {
   
   public chart: any;
-  @Input() expanded: boolean = false;
   @Input() type: any;
   @Input() transactions: Transaction[] = [];
   accountId: string = '';
