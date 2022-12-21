@@ -3,3 +3,11 @@
     justify-content: space-around;
 }
 
+.account-card:hover {
+    box-shadow: var(--box-shadow);
+    transform: translate3d(0px, 0, 0);
+}
+
+.account-card {
+    box-shadow: var(--box-shadow);
+}

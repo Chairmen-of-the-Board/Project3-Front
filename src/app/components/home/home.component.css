@@ -40,6 +40,12 @@ h2 {
 
 h1 {
     padding-top: 5px;
+    color: gold;
+    text-shadow:
+            -1px -1px 0 maroon,
+            1px -1px 0 maroon,
+            -1px 1px 0 maroon,
+            1px 1px 0 maroon;
 }
 
 .account-card {
