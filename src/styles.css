@@ -15,6 +15,7 @@ body {
     --card-color: rgb(239, 232, 160);
 
     --box-shadow: 0 15px 25px rgb(43, 42, 42);
+    --color: #e4e4e4;
     --btn-txt-color: white;
     --btn-bg-color: rgb(11, 88, 160);
 
@@ -31,7 +32,7 @@ body {
       --card-color: rgb(50, 50, 50);
 
     --box-shadow: 0 15px 25px rgb(242, 239, 239);
-    --color:#f5f2f2;
+    --color: #e4e4e4;
 
     --btn-txt-color: rgb(46, 43, 43);
     --btn-bg-color: rgb(20, 211, 195);
@@ -57,6 +58,10 @@ body {
   
   background: var(--card-color);
 
+}
+
+.chart-container {
+  background: var(--color);  
 }
 
 h4 {
