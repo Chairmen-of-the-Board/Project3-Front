@@ -1,27 +1,28 @@
-# BankingFrontendAngular
+# Project3-Front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+Project3-Front is an Angular frontend application hosted on an AWS S3 bucket as a static website.  Connects to a Java Spring web application backend and AWS RDS PostgreSQL database. Written in Typescript, styled with Bootstrap and CSS. Compiled with nodeJS.
 
-## Development server
+## Tech stack
+- Angular 14
+- Typescript
+- Bootstrap 4
+- NodeJS --version 16
+- JavaScript
+- HTML
+- CSS
+- AWS S3 buckets
+- Code Build
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Installation
+Follow STARTUP.MD
 
-## Code scaffolding
+## Contributing
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
 
-## Build
+Please make sure to update tests as appropriate.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## License
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Revature retains all rights.
