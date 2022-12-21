@@ -1,6 +1,6 @@
 <div class="account-card">
     <h1>Amount: {{request.amount | moneypipe}}</h1>
-    <p>For: {{request.targetEmail}}</p>
+    <p>From account: {{request.requestAccId}}</p>
     <p>Description: {{request.description}}</p>
     <p>Time Sent: {{request.creationDate}}</p>
     <div class="spacer-line">
